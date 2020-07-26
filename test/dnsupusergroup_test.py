@@ -212,7 +212,7 @@ class Testdnsmkusergroup(unittest.TestCase):
 
   def testForwardErrors(self):
     #testing a zone that is not assigned to group cs
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.')
     output = os.popen('python %s forward --group-permission=a,aaaa,cname,ns '
                       '-z test_zone -g cs -s %s -u %s -p %s '
                       '--config-file=%s ' % (EXEC, self.server_name, USERNAME, 

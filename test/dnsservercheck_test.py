@@ -112,7 +112,7 @@ class TestDnsServerCheck(unittest.TestCase):
     self.core_instance.MakeViewToACLAssignments(u'test_view', u'set1',
                                                 u'test_acl', 1)
 
-    self.core_instance.MakeZone(u'sub.university.lcl', u'master',
+    self.core_instance.MakeZone(u'sub.university.lcl', u'main',
                                 u'sub.university.lcl.', view_name=u'test_view')
     soa_args_dict = self.core_instance.GetEmptyRecordArgsDict(u'soa')
     soa_args_dict[u'refresh_seconds'] = 500

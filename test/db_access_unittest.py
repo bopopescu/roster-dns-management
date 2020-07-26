@@ -518,7 +518,7 @@ class TestdbAccess(unittest.TestCase):
         u'test_zone1')
     zone_view_assignments_dict1['zone_view_assignments_view_dependency'] = (
         u'temp_view_dep1')
-    zone_view_assignments_dict1['zone_view_assignments_zone_type'] = u'master'
+    zone_view_assignments_dict1['zone_view_assignments_zone_type'] = u'main'
     zone_view_assignments_dict1['zone_origin'] = u'10.0.1.IN-ADDR.ARPA.'
     zone_view_assignments_dict1['zone_options'] = u''
 
@@ -528,7 +528,7 @@ class TestdbAccess(unittest.TestCase):
         u'test_zone2')
     zone_view_assignments_dict2['zone_view_assignments_view_dependency'] = (
         u'temp_view_dep1')
-    zone_view_assignments_dict2['zone_view_assignments_zone_type'] = u'master'
+    zone_view_assignments_dict2['zone_view_assignments_zone_type'] = u'main'
     zone_view_assignments_dict2['zone_origin'] = u'10.0.0.IN-ADDR.ARPA.'
     zone_view_assignments_dict2['zone_options'] = u''
 
@@ -538,7 +538,7 @@ class TestdbAccess(unittest.TestCase):
         u'test_zone2')
     zone_view_assignments_dict3['zone_view_assignments_view_dependency'] = (
         u'temp_view_dep2')
-    zone_view_assignments_dict3['zone_view_assignments_zone_type'] = u'master'
+    zone_view_assignments_dict3['zone_view_assignments_zone_type'] = u'main'
     zone_view_assignments_dict3['zone_origin'] = u'10.0.2.IN-ADDR.ARPA.'
     zone_view_assignments_dict3['zone_options'] = u''
 

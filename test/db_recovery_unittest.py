@@ -126,7 +126,7 @@ class TestdbAccess(unittest.TestCase):
   def testPushBackup(self):
     self.assertFalse(self.core_instance.ListRecords())
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'university.edu', u'master',
+    self.core_instance.MakeZone(u'university.edu', u'main',
                                 u'university.edu.', view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'@', u'university.edu',
@@ -184,14 +184,14 @@ class TestdbAccess(unittest.TestCase):
   def testRunAuditStep(self):
     self.core_instance.MakeView(u'test_view')
     self.assertEqual(self.core_instance.ListViews(), [u'test_view'])
-    self.core_instance.MakeZone(u'university.edu', u'master',
+    self.core_instance.MakeZone(u'university.edu', u'main',
                                 u'university.edu.', view_name=u'test_view')
     self.assertEqual(
         self.core_instance.ListZones(),
         {u'university.edu':
-            {u'test_view': {'zone_type': u'master', 'zone_options': '',
+            {u'test_view': {'zone_type': u'main', 'zone_options': '',
                             'zone_origin': u'university.edu.'},
-             u'any': {'zone_type': u'master', 'zone_options': '',
+             u'any': {'zone_type': u'main', 'zone_options': '',
                       'zone_origin': u'university.edu.'}}})
     self.core_instance.MakeView(u'test_view2')
     self.core_instance.RemoveView(u'test_view')
@@ -214,20 +214,20 @@ class TestdbAccess(unittest.TestCase):
          "Replaying action with id 4: MakeView\n"
          "with arguments: [u'test_view']\n"
          "Replaying action with id 5: MakeZone\n"
-         "with arguments: [u'university.edu', u'master', u'university.edu.', u'test_view', None, True]\n")
+         "with arguments: [u'university.edu', u'main', u'university.edu.', u'test_view', None, True]\n")
     sys.stdout = old_stdout
     self.assertEqual(self.core_instance.ListViews(), [u'test_view'])
     self.assertEqual(
         self.core_instance.ListZones(),
         {u'university.edu':
-            {u'test_view': {'zone_type': u'master', 'zone_options': '',
+            {u'test_view': {'zone_type': u'main', 'zone_options': '',
                             'zone_origin': u'university.edu.'},
-             u'any': {'zone_type': u'master', 'zone_options': '',
+             u'any': {'zone_type': u'main', 'zone_options': '',
                       'zone_origin': u'university.edu.'}}})
   def testRunAuditRange(self):
     self.assertFalse(self.core_instance.ListRecords())
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'university.edu', u'master',
+    self.core_instance.MakeZone(u'university.edu', u'main',
                                 u'university.edu.', view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'@', u'university.edu',

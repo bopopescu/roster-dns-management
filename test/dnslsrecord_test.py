@@ -111,7 +111,7 @@ class TestDnslsRecord(unittest.TestCase):
     self.core_instance.RemoveZone(u'bio.university.edu')
     self.core_instance.RemoveZone(u'eas.university.edu')
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(u'soa', u'machine1', u'test_zone',
                                   {u'name_server': u'ns.university.edu.',
@@ -199,9 +199,9 @@ class TestDnslsRecord(unittest.TestCase):
 
   def testAList(self):
     self.assertEqual(self.core_instance.ListZones(), {u'test_zone':
-        {u'any': {'zone_type': u'master', 'zone_options': u'',
+        {u'any': {'zone_type': u'main', 'zone_options': u'',
                   'zone_origin': u'test_zone.'},
-         u'test_view': {'zone_type': u'master', 'zone_options': u'',
+         u'test_view': {'zone_type': u'main', 'zone_options': u'',
                         'zone_origin': u'test_zone.'}}})
     self.core_instance.MakeRecord(u'a', u'machine1', u'test_zone',
                                   {u'assignment_ip': u'10.10.10.0'},
@@ -408,7 +408,7 @@ class TestDnslsRecord(unittest.TestCase):
     command.close()
 
   def testPTRList(self):
-    self.core_instance.MakeZone(u'reverse_zone', u'master',
+    self.core_instance.MakeZone(u'reverse_zone', u'main',
                                 u'1.168.192.in-addr.arpa.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(

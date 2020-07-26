@@ -717,7 +717,7 @@ class ConfigLib(object):
         else:
           #These checks are for global and view options
           #In some clauses, fail, warn, and ignore are not enough.
-          #master/slave/response warn/fail/ignore is the correct syntax.
+          #main/subordinate/response warn/fail/ignore is the correct syntax.
           if( 'fail' in option_value ):
             checkzone_arg = 'fail'
           elif( 'warn' in option_value ):

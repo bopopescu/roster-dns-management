@@ -184,7 +184,7 @@ class Testdnsrmusergroup(unittest.TestCase):
 
   def testRemoveForwardPermission(self):
     self.core_instance.MakeGroup(u'testgroup')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'here.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'here.')
     self.core_instance.MakeForwardZonePermission(u'test_zone', u'testgroup',
                                                  [u'a', u'aaaa', u'cname',
                                                   u'ns'])
@@ -280,8 +280,8 @@ class Testdnsrmusergroup(unittest.TestCase):
 
   def testErrors(self):
     self.core_instance.MakeGroup(u'testgroup')
-    self.core_instance.MakeZone(u'test_zone1', u'master', u'here1.')
-    self.core_instance.MakeZone(u'test_zone2', u'master', u'here2.')
+    self.core_instance.MakeZone(u'test_zone1', u'main', u'here1.')
+    self.core_instance.MakeZone(u'test_zone2', u'main', u'here2.')
     self.core_instance.MakeReverseRangePermission('192.168.1.4/30', u'testgroup',
                                                  [])
     self.core_instance.MakeForwardZonePermission(u'test_zone2', u'testgroup',

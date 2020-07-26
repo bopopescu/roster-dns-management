@@ -158,11 +158,11 @@ class TestQueryCheck(unittest.TestCase):
       os.mkdir(TESTDIR)
 
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'forward_zone', u'master',
+    self.core_instance.MakeZone(u'forward_zone', u'main',
                                 u'sub.university.lcl.', view_name=u'test_view')
-    self.core_instance.MakeZone(u'reverse_zone', u'master',
+    self.core_instance.MakeZone(u'reverse_zone', u'main',
                                 u'0.168.192.in-addr.arpa.', view_name=u'test_view')
-    self.core_instance.MakeZone(u'reverse_ipv6_zone', u'master',
+    self.core_instance.MakeZone(u'reverse_ipv6_zone', u'main',
                                 u'8.0.e.f.f.3.ip6.arpa.', view_name=u'test_view')
     self.assertEqual(self.core_instance.ListRecords(), [])
     output = os.popen('python %s -f test_data/test_zone.db '

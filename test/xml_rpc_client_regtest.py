@@ -272,7 +272,7 @@ class TestXMLServerClient(unittest.TestCase):
     self.daemon_instance.core_die_time = 7200
     roster_client_lib.RunFunction(u'MakeZone', USERNAME,
                                   credstring=self.credential,
-                                  args=['new_zone', 'master',
+                                  args=['new_zone', 'main',
                                         'zone.com.'],
                                   server_name=self.server_name,
                                   password=PASSWORD)
@@ -295,7 +295,7 @@ class TestXMLServerClient(unittest.TestCase):
     self.assertRaises(SystemExit, roster_client_lib.RunFunction,
                                   u'MakeZone', USERNAME,
                                   credstring=self.credential,
-                                  args=['new_zone', 'master',
+                                  args=['new_zone', 'main',
                                         'zone.com'],
                                   server_name=self.server_name,
                                   password=PASSWORD)
@@ -319,7 +319,7 @@ class TestXMLServerClient(unittest.TestCase):
     self.assertRaises(SystemExit, roster_client_lib.RunFunction,
                                   u'MakeZone', USERNAME,
                                   credstring=self.credential,
-                                  args=['new_zone', 'master',
+                                  args=['new_zone', 'main',
                                         'zone.com.'],
                                   kwargs={'view_name': 'no-exist'},
                                   server_name=self.server_name,
@@ -333,7 +333,7 @@ class TestXMLServerClient(unittest.TestCase):
     sys.stdout = StdOutStream()
     core_return = roster_client_lib.RunFunction(u'MakeZone', USERNAME,
                                   credstring=self.credential,
-                                  args=['new_zone', 'master',
+                                  args=['new_zone', 'main',
                                         'zone.com.'],
                                   server_name=self.server_name,
                                   password=PASSWORD)
@@ -370,7 +370,7 @@ class TestXMLServerClient(unittest.TestCase):
     self.daemon_instance.core_die_time = 7200
     roster_client_lib.RunFunction(u'MakeZone', USERNAME,
                                   credstring=self.credential,
-                                  args=['new_zone', 'master',
+                                  args=['new_zone', 'main',
                                         'zone.com.'],
                                   server_name=self.server_name,
                                   password=PASSWORD)

@@ -1577,14 +1577,14 @@ class Core(object):
       the secondary dictionary is keyed by view name and the third is keyed
       by type of data.
         example:
-          {'zone.university.edu': {'internal': {'zone_type': 'master',
+          {'zone.university.edu': {'internal': {'zone_type': 'main',
                                                 'zone_options': 'misc opts',
                                                 'zone_origin':
                                                     'university.edu.'},
-                                   'any': {'zone_type': 'master'
+                                   'any': {'zone_type': 'main'
                                            'zone_options': 'other options',
                                            'zone_origin': 'university.edu.'}},
-           'otherzone.university.edu': {'any': {'zone_type': 'slave',
+           'otherzone.university.edu': {'any': {'zone_type': 'subordinate',
                                                 'zone_options': 'options'}}}
 
     """
@@ -2683,7 +2683,7 @@ class Core(object):
           zone_view_assignment = zone_view_assignments[0]
 
         zone_type = zone_view_assignment['zone_view_assignments_zone_type']
-        if( zone_type != u'master' ):
+        if( zone_type != u'main' ):
           raise errors.InvalidInputError('Cannot create records in %s zone %s' % (
               zone_type, zone_name))
 
@@ -3137,7 +3137,7 @@ class Core(object):
     """Lists zone types.
 
        Outputs:
-         list: list of zone types, example: ['master', 'slave', 'forward']
+         list: list of zone types, example: ['main', 'subordinate', 'forward']
     """
     self.user_instance.Authorize('ListZoneTypes')
     zone_types_dict = self.db_instance.GetEmptyRowDict('zone_types')

@@ -140,7 +140,7 @@ class TestDnsMkRecord(unittest.TestCase):
     self.assertEqual(command.read(), 'CLIENT ERROR: Zone does not exist!\n')
     self.assertTrue(self.retCode(command.close()))
     self.assertFalse(self.core_instance.ListZones())
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -150,9 +150,9 @@ class TestDnsMkRecord(unittest.TestCase):
          u'retry_seconds': 5, u'expiry_seconds': 5,
          u'minimum_seconds': 5}, view_name=u'test_view')
     self.assertEqual(self.core_instance.ListZones(), {u'test_zone':
-        {u'any': {'zone_type': u'master', 'zone_options': u'',
+        {u'any': {'zone_type': u'main', 'zone_options': u'',
                   'zone_origin': u'test_zone.'},
-         u'test_view': {'zone_type': u'master', 'zone_options': u'',
+         u'test_view': {'zone_type': u'main', 'zone_options': u'',
                         'zone_origin': u'test_zone.'}}})
     self.core_instance.MakeRecord(u'a', u'machine1', u'test_zone',
                                   {u'assignment_ip': u'10.10.10.0'},
@@ -231,12 +231,12 @@ class TestDnsMkRecord(unittest.TestCase):
     self.assertEqual(command.read(), 'CLIENT ERROR: Zone does not exist!\n')
     self.assertTrue(self.retCode(command.close()))
     self.assertFalse(self.core_instance.ListZones())
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.assertEqual(self.core_instance.ListZones(), {u'test_zone':
-        {u'any': {'zone_type': u'master', 'zone_options': u'',
+        {u'any': {'zone_type': u'main', 'zone_options': u'',
                   'zone_origin': u'test_zone.'},
-         u'test_view': {'zone_type': u'master', 'zone_options': u'',
+         u'test_view': {'zone_type': u'main', 'zone_options': u'',
                         'zone_origin': u'test_zone.'}}})
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -287,7 +287,7 @@ class TestDnsMkRecord(unittest.TestCase):
   def testZoneViewAssignmentsError(self):
     self.core_instance.MakeView(u'test_view')
     self.core_instance.MakeView(u'troll_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
         view_name=u'test_view')
 
     #The reason why we try this twice, (first here, and after we create an SOA)
@@ -326,7 +326,7 @@ class TestDnsMkRecord(unittest.TestCase):
 
   def testHINFOZoneMakeRemoveListUpdate(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -365,7 +365,7 @@ class TestDnsMkRecord(unittest.TestCase):
 
   def testTXTZoneMakeRemoveListUpdate(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -409,7 +409,7 @@ class TestDnsMkRecord(unittest.TestCase):
 
   def testCNAMEZoneMakeRemoveListUpdate(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -448,7 +448,7 @@ class TestDnsMkRecord(unittest.TestCase):
 
   def testSOAZoneMakeRemoveListUpdate(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(u'soa', u'machine1', u'test_zone',
                                   {u'name_server': u'ns.university.edu.',
@@ -495,7 +495,7 @@ class TestDnsMkRecord(unittest.TestCase):
 
   def testSRVZoneMakeRemoveListUpdate(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -540,7 +540,7 @@ class TestDnsMkRecord(unittest.TestCase):
 
   def testNSZoneMakeRemoveListUpdate(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -583,7 +583,7 @@ class TestDnsMkRecord(unittest.TestCase):
 
   def testMXZoneMakeRemoveListUpdate(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -623,7 +623,7 @@ class TestDnsMkRecord(unittest.TestCase):
 
   def testPTRZoneMakeRemoveListUpdate(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master',
+    self.core_instance.MakeZone(u'test_zone', u'main',
                                 u'1.168.192.in-addr.arpa.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
@@ -669,9 +669,9 @@ class TestDnsMkRecord(unittest.TestCase):
 
   def testErrors(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'slave_zone', u'slave', u'slave_zone.',
+    self.core_instance.MakeZone(u'subordinate_zone', u'subordinate', u'subordinate_zone.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -685,12 +685,12 @@ class TestDnsMkRecord(unittest.TestCase):
                                   {u'name_server': u'university.edu.'},
                                   view_name=u'test_view')
     command = os.popen('python %s hinfo --hardware speed_machine --os jelly_bean '
-                       '-q -t machine -v test_view -z slave_zone -u '
+                       '-q -t machine -v test_view -z subordinate_zone -u '
                        '%s -p %s --config-file %s -s %s' % (
                            EXEC, USERNAME, self.password, USER_CONFIG,
                            self.server_name))
     self.assertEqual(command.read(),
-        'USER ERROR: Cannot create records in slave zone slave_zone\n')
+        'USER ERROR: Cannot create records in subordinate zone subordinate_zone\n')
     command.close()
     command = os.popen('python %s '
                        'hinfo --hardware thisisasuperlong'

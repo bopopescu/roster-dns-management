@@ -133,15 +133,15 @@ class Testdnsrmzone(unittest.TestCase):
     self.core_instance.MakeView(u'test_view')
     self.core_instance.MakeView(u'test_view2')
     self.core_instance.MakeView(u'test_view3')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'origin.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'origin.',
                                 view_name=u'test_view', make_any=True)
-    self.core_instance.MakeZone(u'test_zone', u'master', u'origin.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'origin.',
                                 view_name=u'test_view2', make_any=False)
-    self.core_instance.MakeZone(u'test_zone', u'master', u'origin.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'origin.',
                                 view_name=u'test_view3', make_any=False)
     self.assertEqual(self.core_instance.ListZones(view_name=u'test_view'),
                      {u'test_zone': {u'test_view':
-                         {'zone_type': u'master', 'zone_options': '',
+                         {'zone_type': u'main', 'zone_options': '',
                           'zone_origin': u'origin.'}}})
     output = os.popen('python %s -z test_zone -v test_view '
                       '-s %s -u %s -p %s --config-file %s' % (
@@ -153,13 +153,13 @@ class Testdnsrmzone(unittest.TestCase):
     self.assertEqual(self.core_instance.ListZones(),
         {u'test_zone':
           {u'test_view2':
-            {'zone_type': u'master', 'zone_options': '',
+            {'zone_type': u'main', 'zone_options': '',
                 'zone_origin': u'origin.'},
            u'any':
-            {'zone_type': u'master', 'zone_options': '',
+            {'zone_type': u'main', 'zone_options': '',
             'zone_origin': u'origin.'},
            u'test_view3':
-            {'zone_type': u'master', 'zone_options': '',
+            {'zone_type': u'main', 'zone_options': '',
             'zone_origin': u'origin.'}}})
 
     # Delete any view of zone
@@ -173,10 +173,10 @@ class Testdnsrmzone(unittest.TestCase):
     self.assertEqual(self.core_instance.ListZones(), 
         {u'test_zone':
           {u'test_view2':
-            {'zone_type': u'master', 'zone_options': '',
+            {'zone_type': u'main', 'zone_options': '',
                 'zone_origin': u'origin.'},
           u'test_view3':
-            {'zone_type': u'master', 'zone_options': '',
+            {'zone_type': u'main', 'zone_options': '',
             'zone_origin': u'origin.'}}})
     
     # Delete entire zone

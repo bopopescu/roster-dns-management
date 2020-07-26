@@ -90,20 +90,20 @@ class TestConfigLib(unittest.TestCase):
     self.core_instance.MakeDnsServer(u'localhost', SSH_USER, BINDDIR, TESTDIR)
     self.core_instance.MakeDnsServer(u'255.254.253.252', SSH_USER, 
                                      BINDDIR, TESTDIR)
-    self.core_instance.MakeDnsServerSet(u'master')
-    self.core_instance.MakeDnsServerSetAssignments(u'localhost', u'master')
-    self.core_instance.MakeDnsServerSetAssignments(u'255.254.253.252', u'master')
-    self.core_instance.MakeDnsServerSetViewAssignments(u'external', 1, u'master')
-    self.core_instance.MakeViewToACLAssignments(u'external', u'master',
+    self.core_instance.MakeDnsServerSet(u'main')
+    self.core_instance.MakeDnsServerSetAssignments(u'localhost', u'main')
+    self.core_instance.MakeDnsServerSetAssignments(u'255.254.253.252', u'main')
+    self.core_instance.MakeDnsServerSetViewAssignments(u'external', 1, u'main')
+    self.core_instance.MakeViewToACLAssignments(u'external', u'main',
                                                 u'internal', 1)
-    self.core_instance.MakeZone(u'forward_zone', u'master', u'university.lcl.', u'external')
+    self.core_instance.MakeZone(u'forward_zone', u'main', u'university.lcl.', u'external')
     self.core_instance.MakeRecord(u'soa', u'@', u'forward_zone', {u'refresh_seconds':500,
         u'expiry_seconds':500, u'name_server':u'ns.university.lcl.', u'minimum_seconds':500,
         u'retry_seconds': 500, u'serial_number':1000, u'admin_email': u'admin.localhost.lcl.'}, u'external')
     self.core_instance.MakeRecord(u'ns', u'@', u'forward_zone', {u'name_server':u'ns.university.lcl.'})
     self.core_instance.MakeRecord(u'a', u'ns', u'forward_zone', {u'assignment_ip':u'1.2.3.4'})
     self.core_instance.MakeNamedConfGlobalOption(
-        u'master', u'include "%s/test_data/rndc.key"; options { pid-file "test_data/named.pid";};\n'
+        u'main', u'include "%s/test_data/rndc.key"; options { pid-file "test_data/named.pid";};\n'
         'controls { inet 127.0.0.1 port 5555 allow{localhost;} keys {rndc-key;};};' % (os.getcwd()))
 
   def tearDown(self):
@@ -118,9 +118,9 @@ class TestConfigLib(unittest.TestCase):
     if( os.path.exists('test_data/config_test_dir') ):
       shutil.rmtree('test_data/config_test_dir')
 
-  #Testing the exporting of a slave zone with no records to make sure
+  #Testing the exporting of a subordinate zone with no records to make sure
   #that config_lib tars an empty folder.
-  def testTarringSlaveZone(self):
+  def testTarringSubordinateZone(self):
     for zone in self.core_instance.ListZones():
       self.core_instance.RemoveZone(zone)
     self.core_instance.MakeDnsServer(u'server1', u'some_user', u'/bind/dir/',
@@ -129,7 +129,7 @@ class TestConfigLib(unittest.TestCase):
     self.core_instance.MakeDnsServerSetAssignments(u'server1', u'server_set1')
     self.core_instance.MakeDnsServerSetViewAssignments(u'external', 1, u'server_set1')
 
-    self.core_instance.MakeZone(u'test_zone', u'slave', u'test_zone.', 
+    self.core_instance.MakeZone(u'test_zone', u'subordinate', u'test_zone.', 
         view_name=u'external', make_any=False)
     self.core_instance.MakeNamedConfGlobalOption(u'server_set1', u'recursion no;')
 
@@ -564,9 +564,9 @@ class TestConfigLib(unittest.TestCase):
     view_dict = {'zone "."': 
                     {'type': 'hint', 'file': '"named.ca"'}, 
                  'zone "university.lcl"': 
-                    {'type': 'master', 'file': '"external/forward_zone.db"'}, 
+                    {'type': 'main', 'file': '"external/forward_zone.db"'}, 
                  'match-clients': {'internal': True}}
-    zone_dict = {'type': 'master', 'file': '"external/forward_zone.db"'}
+    zone_dict = {'type': 'main', 'file': '"external/forward_zone.db"'}
     self.assertEqual(config_lib_instance.MergeOptionsDicts(global_options_dict, view_dict, zone_dict),
             {'check-integrity': 'yes',
              'check-siblings': 'yes',

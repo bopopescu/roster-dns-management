@@ -432,10 +432,10 @@ class BindTreeExport(object):
       if( binary ):
         if( len(deserialized_config) == 0 ):
           return (u'options {\n'
-                  u'masterfile-format raw;\n'
+                  u'mainfile-format raw;\n'
                   u'};')
         deserialized_part = deserialized_config.partition('options {')
-        new_options = '\nmasterfile-format raw; '
+        new_options = '\nmainfile-format raw; '
         deserialized_config = '%s%s%s%s' % (
             deserialized_part[0],
             deserialized_part[1],
@@ -544,7 +544,7 @@ class BindTreeExport(object):
         records = cooked_data['dns_server_sets'][dns_server_set]['views'][
           view_name]['zones'][zone]['records']
         if( cooked_data['dns_server_sets'][dns_server_set]['views'][
-          view_name]['zones'][zone]['zone_type'] != 'slave' ):
+          view_name]['zones'][zone]['zone_type'] != 'subordinate' ):
           #If there is no SOA record for this zone, a zone file won't be generated
           #so we don't put a reference to a non-existent file in named.conf
           for record in records:
@@ -775,7 +775,7 @@ class BindTreeExport(object):
                                 'zone_name': u'university.edu',
                                 u'assignment_ip': u'1.2.3.5'},
                                 'zone_origin': u'example.',
-                                'zone_type': u'master'}}}},
+                                'zone_type': u'main'}}}},
       u'dns_servers':
           {u'ns1.university.edu':
                {'dns_server_remote_bind_directory': u'/etc/named/',
@@ -866,7 +866,7 @@ class BindTreeExport(object):
                 if( view_dependency_name == zone[
                     'zone_view_assignments_view_dependency'] and
                     ((zone_name, view_dependency_name) in sorted_records or
-                    zone['zone_view_assignments_zone_type'] == 'slave') ):
+                    zone['zone_view_assignments_zone_type'] == 'subordinate') ):
                   if( not zone_name in cooked_data['dns_server_sets'][
                         dns_server_set_name]['views'][view_name]['zones'] ):
                     cooked_data['dns_server_sets'][dns_server_set_name][
@@ -891,7 +891,7 @@ class BindTreeExport(object):
                       view_name]['zones'][zone_name]['zone_type'] = zone[
                           'zone_view_assignments_zone_type']
 
-                  # if the zone is a slave
+                  # if the zone is a subordinate
                   if((zone_name, view_dependency_name) not in sorted_records):
                     continue
 

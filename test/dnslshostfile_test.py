@@ -125,19 +125,19 @@ class Testdnslshostfile(unittest.TestCase):
     self.core_instance.MakeView(u'test_view')
     self.core_instance.MakeView(u'test_view2')
     self.core_instance.MakeView(u'test_view3')
-    self.core_instance.MakeZone(u'reverse_zone', u'master',
+    self.core_instance.MakeZone(u'reverse_zone', u'main',
                                 u'1.168.192.in-addr.arpa.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'forward_zone', u'master',
+    self.core_instance.MakeZone(u'forward_zone', u'main',
                                 u'university.edu.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'forward_zone', u'master',
+    self.core_instance.MakeZone(u'forward_zone', u'main',
                                 u'university.edu.',
                                 view_name=u'test_view3')
-    self.core_instance.MakeZone(u'reverse_zone', u'master',
+    self.core_instance.MakeZone(u'reverse_zone', u'main',
                                 u'1.168.192.in-addr.arpa.',
                                 view_name=u'test_view2')
-    self.core_instance.MakeZone(u'ipv6zone', u'master',
+    self.core_instance.MakeZone(u'ipv6zone', u'main',
                                 u'8.0.e.f.f.3.ip6.arpa.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(

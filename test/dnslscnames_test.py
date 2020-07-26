@@ -108,7 +108,7 @@ class TestDnslsRecord(unittest.TestCase):
     time.sleep(1)
 
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'university.edu.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'university.edu.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(u'soa', u'machine1', u'test_zone',
                                   {u'name_server': u'ns.university.edu.',
@@ -132,7 +132,7 @@ class TestDnslsRecord(unittest.TestCase):
     #removing test_zone in test_view
     self.core_instance.RemoveZone(u'test_zone')
     #making test_zone in any view
-    self.core_instance.MakeZone(u'test_zone', u'master', u'univeristy.edu.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'univeristy.edu.')
     self.core_instance.MakeRecord(u'a', u'machine1', u'test_zone',
                                   {u'assignment_ip': u'10.10.10.0'},
                                   view_name=u'any')

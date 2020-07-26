@@ -128,26 +128,26 @@ class TestDnsMassAdd(unittest.TestCase):
     self.core_instance.MakeView(u'test_view')
     self.core_instance.MakeView(u'test_view2')
     self.core_instance.MakeView(u'test_view3')
-    self.core_instance.MakeZone(u'reverse_zone', u'master',
+    self.core_instance.MakeZone(u'reverse_zone', u'main',
                                 u'1.168.192.in-addr.arpa.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'forward_zone', u'master',
+    self.core_instance.MakeZone(u'forward_zone', u'main',
                                 u'university.edu.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'forward_zone', u'master',
+    self.core_instance.MakeZone(u'forward_zone', u'main',
                                 u'university.edu.',
                                 view_name=u'test_view3')
-    self.core_instance.MakeZone(u'foward_zone_ipv6', u'master',
+    self.core_instance.MakeZone(u'foward_zone_ipv6', u'main',
                                 u'university2.edu.',
                                 view_name=u'test_view')
     self.core_instance.MakeZone(
-        u'reverse_zone_ipv6', u'master',
+        u'reverse_zone_ipv6', u'main',
         u'0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.'
         '0.0.0.1.2.3.4.ip6.arpa.', view_name=u'test_view')
     self.core_instance.MakeReverseRangeZoneAssignment(u'reverse_zone_ipv6',
                                                   u'4321::/32')
 
-    self.core_instance.MakeZone(u'reverse_zone', u'master',
+    self.core_instance.MakeZone(u'reverse_zone', u'main',
                                 u'1.168.192.in-addr.arpa.',
                                 view_name=u'test_view2')
     self.core_instance.MakeReverseRangeZoneAssignment(u'reverse_zone',

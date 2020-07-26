@@ -111,12 +111,12 @@ class TestDnsZoneImport(unittest.TestCase):
                                      server_name=self.server_name)
     self.core_instance.MakeView(u'test_view1')
     self.core_instance.MakeView(u'test_view2')
-    self.core_instance.MakeZone(u'sub.university.lcl', u'master',
+    self.core_instance.MakeZone(u'sub.university.lcl', u'main',
                                 u'sub.university.lcl.', view_name=u'test_view1')
-    self.core_instance.MakeZone(u'0.168.192.in-addr.arpa', u'master',
+    self.core_instance.MakeZone(u'0.168.192.in-addr.arpa', u'main',
                                 u'0.168.192.in-addr.arpa.',
                                 view_name=u'test_view1')
-    self.core_instance.MakeZone(u'8.0.e.f.f.3.ip6.arpa', u'master',
+    self.core_instance.MakeZone(u'8.0.e.f.f.3.ip6.arpa', u'main',
                                 u'8.0.e.f.f.3.ip6.arpa.', 
                                 view_name=u'test_view1')
     self.core_instance.MakeReverseRangeZoneAssignment(
@@ -161,7 +161,7 @@ class TestDnsZoneImport(unittest.TestCase):
         'ttl': 3600, u'minimum_seconds': 86400, 'record_type': u'soa', 
         'view_name': u'test_view1', 'last_user': u'sharrell', 
         'zone_name': u'sub.university.lcl', 
-        u'admin_email': u'hostmaster.ns.university.lcl.', 
+        u'admin_email': u'hostmain.ns.university.lcl.', 
         u'expiry_seconds': 3600000}, {'target': u'@', 
         u'name_server': u'ns.sub.university.lcl.', 'ttl': 3600, 
         'record_type': u'ns', 'view_name': u'any', 'last_user': u'sharrell', 
@@ -235,7 +235,7 @@ class TestDnsZoneImport(unittest.TestCase):
         'ttl': 3600, u'minimum_seconds': 86400, 'record_type': u'soa', 
         'view_name': u'test_view1', 'last_user': u'sharrell', 
         'zone_name': u'sub.university.lcl', 
-        u'admin_email': u'hostmaster.ns.university.lcl.', 
+        u'admin_email': u'hostmain.ns.university.lcl.', 
         u'expiry_seconds': 3600000}, {'target': u'@', 
         u'name_server': u'ns.sub.university.lcl.', 'ttl': 3600, 
         'record_type': u'ns', 'view_name': u'test_view1', 
@@ -306,7 +306,7 @@ class TestDnsZoneImport(unittest.TestCase):
           u'name_server': u'ns.university.lcl.', u'retry_seconds': 3600, 'ttl': 86400, 
           u'minimum_seconds': 86400, 'record_type': u'soa', 'view_name': u'test_view1', 
           'last_user': u'sharrell', 'zone_name': u'8.0.e.f.f.3.ip6.arpa', u'admin_email': 
-          u'hostmaster.university.lcl.', u'expiry_seconds': 3600000}, {'target': 
+          u'hostmain.university.lcl.', u'expiry_seconds': 3600000}, {'target': 
           u'@', u'name_server': u'ns.university.lcl.', 'ttl': 86400, 'record_type': 
           u'ns', 'view_name': u'any', 'last_user': u'sharrell', 'zone_name': u'8.0.e.f.f.3.ip6.arpa'}, 
           {'target': u'@', u'name_server': u'ns2.university.lcl.', 'ttl': 86400, 
@@ -334,7 +334,7 @@ class TestDnsZoneImport(unittest.TestCase):
         [{u'serial_number': 5, u'refresh_seconds': 10800, 'target': u'@', u'name_server': 
           u'ns.university.lcl.', u'retry_seconds': 3600, 'ttl': 86400, u'minimum_seconds': 
           86400, 'record_type': u'soa', 'view_name': u'test_view1', 'last_user': 
-          u'sharrell', 'zone_name': u'8.0.e.f.f.3.ip6.arpa', u'admin_email': u'hostmaster.university.lcl.', 
+          u'sharrell', 'zone_name': u'8.0.e.f.f.3.ip6.arpa', u'admin_email': u'hostmain.university.lcl.', 
           u'expiry_seconds': 3600000}, {'target': u'@', u'name_server': u'ns.university.lcl.', 
           'ttl': 86400, 'record_type': u'ns', 'view_name': u'test_view1', 'last_user': 
           u'sharrell', 'zone_name': u'8.0.e.f.f.3.ip6.arpa'}, {'target': u'@', u'name_server': 
@@ -363,7 +363,7 @@ class TestDnsZoneImport(unittest.TestCase):
         [{u'serial_number': 6, u'refresh_seconds': 10800, 'target': u'@', u'name_server': 
           u'ns.university.lcl.', u'retry_seconds': 3600, 'ttl': 86400, u'minimum_seconds': 
           86400, 'record_type': u'soa', 'view_name': u'test_view1', 'last_user': 
-          u'sharrell', 'zone_name': u'0.168.192.in-addr.arpa', u'admin_email': u'hostmaster.university.lcl.', 
+          u'sharrell', 'zone_name': u'0.168.192.in-addr.arpa', u'admin_email': u'hostmain.university.lcl.', 
           u'expiry_seconds': 3600000}, {'target': u'@', u'name_server': u'ns.university.lcl.', 
           'ttl': 86400, 'record_type': u'ns', 'view_name': u'any', 'last_user': u'sharrell', 
           'zone_name': u'0.168.192.in-addr.arpa'}, {'target': u'@', u'name_server': 
@@ -392,7 +392,7 @@ class TestDnsZoneImport(unittest.TestCase):
         [{u'serial_number': 5, u'refresh_seconds': 10800, 'target': u'@', u'name_server': 
           u'ns.university.lcl.', u'retry_seconds': 3600, 'ttl': 86400, u'minimum_seconds': 
           86400, 'record_type': u'soa', 'view_name': u'test_view1', 'last_user': 
-          u'sharrell', 'zone_name': u'0.168.192.in-addr.arpa', u'admin_email': u'hostmaster.university.lcl.', 
+          u'sharrell', 'zone_name': u'0.168.192.in-addr.arpa', u'admin_email': u'hostmain.university.lcl.', 
           u'expiry_seconds': 3600000}, {'target': u'@', u'name_server': u'ns.university.lcl.', 
           'ttl': 86400, 'record_type': u'ns', 'view_name': u'test_view1', 'last_user': 
           u'sharrell', 'zone_name': u'0.168.192.in-addr.arpa'}, {'target': u'@', 

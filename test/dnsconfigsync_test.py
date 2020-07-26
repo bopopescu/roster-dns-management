@@ -154,7 +154,7 @@ class TestCheckConfig(unittest.TestCase):
       os.mkdir(BINDDIR)
 
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'sub.university.lcl', u'master',
+    self.core_instance.MakeZone(u'sub.university.lcl', u'main',
                                 u'sub.university.lcl.', view_name=u'test_view')
 
     self.assertEqual(self.core_instance.ListRecords(), [])
@@ -397,7 +397,7 @@ class TestCheckConfig(unittest.TestCase):
     self.assertTrue(os.path.exists('%s/named/named.conf' % BINDDIR))
 
     # Tests that zones with name ending with 'd' or 'b' are not improperly named
-    self.core_instance.MakeZone(u'zoned', u'master', u'zoned.lcl.', view_name=u'test_view')
+    self.core_instance.MakeZone(u'zoned', u'main', u'zoned.lcl.', view_name=u'test_view')
     output = os.popen('python %s -f test_data/test_zone.db '
                       '--view test_view -u %s --config-file %s '
                       '-z zoned' % ( 

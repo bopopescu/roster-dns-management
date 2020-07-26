@@ -179,7 +179,7 @@ class TestCliRecordLib(unittest.TestCase):
         u'a', options, {u'assignment_ip': u'192.168.1.1'})
     self.assertEqual(sys.stdout.flush(), 'CLIENT ERROR: Zone does not exist!\n')
 
-    self.core_instance.MakeZone(options.zone_name, u'master',
+    self.core_instance.MakeZone(options.zone_name, u'main',
                                 u'university.edu.',
                                 view_name=options.view_name)
     self.core_instance.MakeRecord(
@@ -201,7 +201,7 @@ class TestCliRecordLib(unittest.TestCase):
     self.assertEqual(sys.stdout.flush(), 'CLIENT ERROR: Duplicate record!\n')
 
     options.zone_name = u'reverse_zone'
-    self.core_instance.MakeZone(options.zone_name, u'master',
+    self.core_instance.MakeZone(options.zone_name, u'main',
                                 u'1.168.192.in-addr.arpa.',
                                 view_name=options.view_name)
     self.core_instance.MakeReverseRangeZoneAssignment(
@@ -222,7 +222,7 @@ class TestCliRecordLib(unittest.TestCase):
                       'server.university.edu.\n')
 
     options.zone_name = u'ipv6_zone'
-    self.core_instance.MakeZone(options.zone_name, u'master',
+    self.core_instance.MakeZone(options.zone_name, u'main',
                                 u'university2.edu.',
                                 view_name=options.view_name)
     options.target = u'ipv6host'
@@ -244,7 +244,7 @@ class TestCliRecordLib(unittest.TestCase):
 
   def testRemoveRecord(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'university.edu.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'university.edu.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',
@@ -294,7 +294,7 @@ class TestCliRecordLib(unittest.TestCase):
 
   def testListRecords(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'university.edu.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'university.edu.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'test_zone',

@@ -50,35 +50,35 @@ class TreeExportTestCase(unittest.TestCase):
     self.core_instance.MakeView(u'external')
     self.core_instance.MakeView(u'private')
 
-    self.core_instance.MakeZone(u'university.edu', u'master', 
+    self.core_instance.MakeZone(u'university.edu', u'main', 
         u'university.edu.', 
         zone_options=u'#Allow update\nallow-update { none; };\n',
         view_name=u'internal')
-    self.core_instance.MakeZone(u'university.edu', u'master', 
+    self.core_instance.MakeZone(u'university.edu', u'main', 
         u'university.edu.', 
         zone_options=u'#Allow update\nallow-update { none; };\n',
         view_name=u'external')
-    self.core_instance.MakeZone(u'university.edu', u'master', 
+    self.core_instance.MakeZone(u'university.edu', u'main', 
         u'university.edu.', 
         zone_options=u'#Allow update\nallow-update { none; };\n',
         view_name=u'private')
-    self.core_instance.MakeZone(u'int.university.edu', u'master', 
+    self.core_instance.MakeZone(u'int.university.edu', u'main', 
         u'university2.edu.',
         zone_options=u'#Allow update\nallow-update { none; };\n',
         view_name=u'internal', make_any=False)
-    self.core_instance.MakeZone(u'priv.university.edu', u'master',
+    self.core_instance.MakeZone(u'priv.university.edu', u'main',
         u'university3.edu.', 
         zone_options=u'#Allow update\nallow-update { none; };\n',
         view_name=u'private', make_any=False)
-    self.core_instance.MakeZone(u'168.192.in-addr', u'master',
+    self.core_instance.MakeZone(u'168.192.in-addr', u'main',
         u'168.192.in-addr.arpa.', 
         zone_options=u'#Allow update\nallow-update { none; };\n',
         view_name=u'internal', make_any=False)
-    self.core_instance.MakeZone(u'4.3.2.in-addr', u'master',
+    self.core_instance.MakeZone(u'4.3.2.in-addr', u'main',
         u'4.3.2.in-addr.arpa.',
         zone_options=u'#Allow update\nallow-update { none; };\n',
         view_name=u'external', make_any=False)
-    self.core_instance.MakeZone(u'bio.university.edu', u'slave',
+    self.core_instance.MakeZone(u'bio.university.edu', u'subordinate',
         u'university4.edu.',
         zone_options=u'Allow update\nallow-update { any; };\n',
         view_name=u'external', make_any=False)

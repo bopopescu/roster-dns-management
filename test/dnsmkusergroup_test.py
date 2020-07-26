@@ -202,7 +202,7 @@ class Testdnsmkusergroup(unittest.TestCase):
                       u'sharrell': [u'cs']})
 
   def testMakeUserWithZone(self):
-    self.core_instance.MakeZone(u'test_zone', u'master', u'here.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'here.')
     output = os.popen('python %s group -g testgroup '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name,
@@ -300,7 +300,7 @@ class Testdnsmkusergroup(unittest.TestCase):
 
   def testMakeZoneAssignments(self):
     self.core_instance.MakeGroup(u'test_group')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'here.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'here.')
     output = os.popen('python %s reverse -z test_zone -b '
                       '192.168.1.0/24 -g test_group --group-permission '
                       'cname,ptr -s %s -u %s -p %s --config-file %s' % (
@@ -384,7 +384,7 @@ class Testdnsmkusergroup(unittest.TestCase):
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(), 'CLIENT ERROR: Group does not exist.\n')
     output.close()
-    self.core_instance.MakeZone(u'test_zone', u'master', u'here.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'here.')
     self.core_instance.MakeGroup(u'testgroup')
     output = os.popen('python %s forward '
                       '-g testgroup -z test_zone --group-permission x '

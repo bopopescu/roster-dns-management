@@ -131,44 +131,44 @@ class TestDnsMkZone(unittest.TestCase):
     if( os.path.exists(ZONE_OPTIONS_FILE) ):
       os.remove(ZONE_OPTIONS_FILE)
 
-  def testNoReverseRangeZoneAssignmentForMakeSlaveZone(self):
+  def testNoReverseRangeZoneAssignmentForMakeSubordinateZone(self):
     self.core_instance.MakeView(u'test_view')
     output = os.popen('python %s reverse -v test_view -z test_zone1 --cidr-block '
-                      '192.168.1.0/24 --type master '
+                      '192.168.1.0/24 --type main '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
         'ADDED REVERSE ZONE: zone_name: test_zone1 '
-        'zone_type: master zone_origin: 1.168.192.in-addr.arpa. '
+        'zone_type: main zone_origin: 1.168.192.in-addr.arpa. '
         'zone_options: None view_name: test_view\n'
         'ADDED REVERSE RANGE ZONE ASSIGNMENT: zone_name: test_zone1 '
         'cidr_block: 192.168.1.0/24 \n')
     output.close()
 
     output = os.popen('python %s reverse -v test_view -z test_zone2 --cidr-block '
-                      '192.168.2.0/24 --type slave '
+                      '192.168.2.0/24 --type subordinate '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
-    #Note, since this is a slave zone, there is no added reverse range zone
-    #assignment. The previous zone, a master zone, does have add a reverse
+    #Note, since this is a subordinate zone, there is no added reverse range zone
+    #assignment. The previous zone, a main zone, does have add a reverse
     #range zone assignment.
     self.assertEqual(output.read(),
         'ADDED REVERSE ZONE: zone_name: test_zone2 '
-        'zone_type: slave zone_origin: 2.168.192.in-addr.arpa. '
+        'zone_type: subordinate zone_origin: 2.168.192.in-addr.arpa. '
         'zone_options: None view_name: test_view\n')
     output.close()
 
   def testMakeZoneWithBootstrap(self):
     self.core_instance.MakeView(u'test_view')
     output = os.popen('python %s forward -v test_view -z test_zone1 --origin '
-                      'dept1.univiersity.edu. --type master --dont-make-any '
+                      'dept1.univiersity.edu. --type main --dont-make-any '
                       '-s %s -u %s -p %s --config-file %s --bootstrap-zone' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone1 zone_type: master '
+        'ADDED FORWARD ZONE: zone_name: test_zone1 zone_type: main '
         'zone_origin: dept1.univiersity.edu. zone_options: None '
         'view_name: test_view\n'
         'ADDED SOA: @ zone_name: test_zone1 view_name: test_view ttl: 3600 '
@@ -180,13 +180,13 @@ class TestDnsMkZone(unittest.TestCase):
         'name_server: ns.dept1.univiersity.edu.\n')
     output.close()
     output = os.popen('python %s forward -v test_view -z test_zone2 --origin '
-                      'dept2.univiersity.edu. --type master --dont-make-any '
+                      'dept2.univiersity.edu. --type main --dont-make-any '
                       '-s %s -u %s -p %s --config-file %s --bootstrap-zone '
                       '--bootstrap-nameserver=broserver.' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone2 zone_type: master '
+        'ADDED FORWARD ZONE: zone_name: test_zone2 zone_type: main '
         'zone_origin: dept2.univiersity.edu. zone_options: None '
         'view_name: test_view\n'
         'ADDED SOA: @ zone_name: test_zone2 view_name: test_view ttl: 3600 '
@@ -198,13 +198,13 @@ class TestDnsMkZone(unittest.TestCase):
         'name_server: broserver.\n')
     output.close()
     output = os.popen('python %s forward -v test_view -z test_zone3 --origin '
-                      'dept3.univiersity.edu. --type master --dont-make-any '
+                      'dept3.univiersity.edu. --type main --dont-make-any '
                       '-s %s -u %s -p %s --config-file %s --bootstrap-zone '
                       '--bootstrap-admin-email=bromail.' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone3 zone_type: master '
+        'ADDED FORWARD ZONE: zone_name: test_zone3 zone_type: main '
         'zone_origin: dept3.univiersity.edu. zone_options: None '
         'view_name: test_view\n'
         'ADDED SOA: @ zone_name: test_zone3 view_name: test_view ttl: 3600 '
@@ -219,71 +219,71 @@ class TestDnsMkZone(unittest.TestCase):
   def testMakeZoneWithView(self):
     self.core_instance.MakeView(u'test_view')
     output = os.popen('python %s forward -v test_view -z test_zone --origin '
-                      'dept.univiersity.edu. --type master --dont-make-any '
+                      'dept.univiersity.edu. --type main --dont-make-any '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
                      'ADDED FORWARD ZONE: zone_name: test_zone zone_type: '
-                     'master zone_origin: dept.univiersity.edu. '
+                     'main zone_origin: dept.univiersity.edu. '
                      'zone_options: None view_name: test_view\n')
     output.close()
 
     self.assertEqual(self.core_instance.ListZones(),
         {u'test_zone':
             {u'test_view':
-                {'zone_type': u'master', 'zone_options': '',
+                {'zone_type': u'main', 'zone_options': '',
                  'zone_origin': u'dept.univiersity.edu.'}}})
     output = os.popen('python %s forward -z test_zone2 -v test_view --origin '
-                      'dept2.univiersity.edu. --type master --dont-make-any '
+                      'dept2.univiersity.edu. --type main --dont-make-any '
                       '--options="recursion no;\n" '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone2 zone_type: master '
+        'ADDED FORWARD ZONE: zone_name: test_zone2 zone_type: main '
         'zone_origin: dept2.univiersity.edu. zone_options: recursion no;\n '
         'view_name: test_view\n')
     output.close()
     self.assertEqual(self.core_instance.ListZones(),
         {u'test_zone':
             {u'test_view':
-                {'zone_type': u'master', 'zone_options': '',
+                {'zone_type': u'main', 'zone_options': '',
                  'zone_origin': u'dept.univiersity.edu.'}},
          u'test_zone2':
              {u'test_view':
-                 {'zone_type': u'master', 'zone_options': u'recursion no;',
+                 {'zone_type': u'main', 'zone_options': u'recursion no;',
                   'zone_origin': u'dept2.univiersity.edu.'}}})
 
     open(ZONE_OPTIONS_FILE, 'w').write('recursion no;\n')
     output = os.popen('python %s forward -z test_zone3 -v test_view --origin '
-                      'dept3.univiersity.edu. --type master --dont-make-any '
+                      'dept3.univiersity.edu. --type main --dont-make-any '
                       '--file=%s -s %s -u %s -p %s --config-file %s' % (
                           EXEC, ZONE_OPTIONS_FILE, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
                      'ADDED FORWARD ZONE: zone_name: test_zone3 zone_type: '
-                     'master zone_origin: dept3.univiersity.edu. '
+                     'main zone_origin: dept3.univiersity.edu. '
                      'zone_options: recursion no; view_name: test_view\n')
     output.close()
     self.assertEqual(self.core_instance.ListZones(),
         {u'test_zone':
             {u'test_view':
-                {'zone_type': u'master', 'zone_options': '',
+                {'zone_type': u'main', 'zone_options': '',
                  'zone_origin': u'dept.univiersity.edu.'}},
          u'test_zone2':
              {u'test_view':
-                 {'zone_type': u'master', 'zone_options': u'recursion no;',
+                 {'zone_type': u'main', 'zone_options': u'recursion no;',
                   'zone_origin': u'dept2.univiersity.edu.'}},
          u'test_zone3':
              {u'test_view':
-                 {'zone_type': u'master', 'zone_options': u'recursion no;',
+                 {'zone_type': u'main', 'zone_options': u'recursion no;',
                   'zone_origin': u'dept3.univiersity.edu.'}}})
 
   def testMakeZoneWithViewAny(self):
     self.core_instance.MakeView(u'any')
     output = os.popen('python %s forward -v any -z test_zone --origin '
-                      'dept.university.edu. --type master --dont-make-any '
+                      'dept.university.edu. --type main --dont-make-any '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME, PASSWORD,
                           USER_CONFIG))
@@ -294,7 +294,7 @@ class TestDnsMkZone(unittest.TestCase):
   def testMakeZoneWithEmptyView(self):
     self.core_instance.MakeView(u'any')
     output = os.popen('python %s forward -z test_zone --origin '
-                      'dept.university.edu. --type master --dont-make-any '
+                      'dept.university.edu. --type main --dont-make-any '
                       '-s %s -u %s -p %s --config-file %s' % (EXEC,
                           self.server_name, USERNAME, PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(), 'CLIENT ERROR: The -v/--view-name flag is '
@@ -306,13 +306,13 @@ class TestDnsMkZone(unittest.TestCase):
     self.core_instance.MakeView(u'test_view')
     output = os.popen('python %s reverse -v test_view -z reverse_zone '
                       '--origin 168.192.in-addr.arpa. '
-                      '--type master --dont-make-any '
+                      '--type main --dont-make-any '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
                      'ADDED REVERSE ZONE: zone_name: reverse_zone '
-                     'zone_type: master zone_origin: 168.192.in-addr.arpa. '
+                     'zone_type: main zone_origin: 168.192.in-addr.arpa. '
                      'zone_options: None view_name: test_view\n'
                      'ADDED REVERSE RANGE ZONE ASSIGNMENT: '
                      'zone_name: reverse_zone cidr_block: 192.168/16 \n')
@@ -322,13 +322,13 @@ class TestDnsMkZone(unittest.TestCase):
     self.core_instance.MakeView(u'test_view')
     output = os.popen('python %s reverse -v test_view -z reverse_zone '
                       '--cidr-block 192.168/16 '
-                      '--type master --dont-make-any '
+                      '--type main --dont-make-any '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
                      'ADDED REVERSE ZONE: zone_name: reverse_zone '
-                     'zone_type: master zone_origin: 168.192.in-addr.arpa. '
+                     'zone_type: main zone_origin: 168.192.in-addr.arpa. '
                      'zone_options: None view_name: test_view\n'
                      'ADDED REVERSE RANGE ZONE ASSIGNMENT: '
                      'zone_name: reverse_zone cidr_block: 192.168/16 \n')
@@ -338,13 +338,13 @@ class TestDnsMkZone(unittest.TestCase):
     self.core_instance.MakeView(u'test_view')
     output = os.popen('python %s reverse -v test_view -z reverse_zone '
                       '--cidr-block 192.168/27 '
-                      '--type master --dont-make-any '
+                      '--type main --dont-make-any '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
                      'ADDED REVERSE ZONE: zone_name: reverse_zone '
-                     'zone_type: master zone_origin: 0/27.168.192.in-addr.arpa. '
+                     'zone_type: main zone_origin: 0/27.168.192.in-addr.arpa. '
                      'zone_options: None view_name: test_view\n'
                      'ADDED REVERSE RANGE ZONE ASSIGNMENT: '
                      'zone_name: reverse_zone cidr_block: 192.168/27 \n')
@@ -353,15 +353,15 @@ class TestDnsMkZone(unittest.TestCase):
   def testMakeMultipleZonesWithSameZoneOriginError(self):
     self.core_instance.MakeView(u'test_view')
     output = os.popen('python %s forward -z test_zone1 -v test_view --origin '
-                      'dept.university.edu. --type master '
+                      'dept.university.edu. --type main '
                       '-s %s -u %s -p %s --config-file %s' % (EXEC,
                           self.server_name, USERNAME, PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone1 zone_type: master '
+        'ADDED FORWARD ZONE: zone_name: test_zone1 zone_type: main '
         'zone_origin: dept.university.edu. zone_options: None view_name: test_view\n')
     output.close()
     output = os.popen('python %s forward -z test_zone2 -v test_view --origin '
-                      'dept.university.edu. --type master '
+                      'dept.university.edu. --type main '
                       '-s %s -u %s -p %s --config-file %s' % (EXEC,
                           self.server_name, USERNAME, PASSWORD, USER_CONFIG))
     output_string = output.read()
@@ -369,17 +369,17 @@ class TestDnsMkZone(unittest.TestCase):
     self.assertTrue('UNKNOWN ERROR(IntegrityError)' in output_string)
     self.assertTrue('Duplicate entry' in output_string)
     output = os.popen('python %s forward -z test_zone3 -v test_view --origin '
-                      'dept.university.edu. --type slave '
+                      'dept.university.edu. --type subordinate '
                       '-s %s -u %s -p %s --config-file %s' % (EXEC,
                           self.server_name, USERNAME, PASSWORD, USER_CONFIG))
     self.assertEqual(output.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone3 zone_type: slave '
+        'ADDED FORWARD ZONE: zone_name: test_zone3 zone_type: subordinate '
         'zone_origin: dept.university.edu. zone_options: None view_name: test_view\n')
     output.close()
 
   def testErrors(self):
     output = os.popen('python %s forward -v test_view -z test_zone --origin '
-                      'dept.univiersity.edu. --type master '
+                      'dept.univiersity.edu. --type main '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
@@ -387,7 +387,7 @@ class TestDnsMkZone(unittest.TestCase):
                      'CLIENT ERROR: The view specified does not exist.\n')
     output.close()
     self.core_instance.MakeView(u'test_view')
-    output = os.popen('python %s forward -v test_view -z test_zone --type master '
+    output = os.popen('python %s forward -v test_view -z test_zone --type main '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
@@ -404,7 +404,7 @@ class TestDnsMkZone(unittest.TestCase):
     output.close()
     output = os.popen('python %s reverse -v test_view -z reverse_zone --origin '
                       '168.192.in-addr.arpa. --cidr-block 192.168/16 '
-                      '--type master '
+                      '--type main '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
@@ -413,7 +413,7 @@ class TestDnsMkZone(unittest.TestCase):
                      'simultaneously.\n')
     output.close()
     output = os.popen('python %s reverse -v test_view -z reverse_zone '
-                      '--type master '
+                      '--type main '
                       '-s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))
@@ -428,7 +428,7 @@ class TestDnsMkZone(unittest.TestCase):
     self.assertEqual(output.read(),
                      'CLIENT ERROR: The -z/--zone-name flag is required.\n')
     output.close()
-    output = os.popen('python %s reverse -z test_rev -t master --origin foo.com '
+    output = os.popen('python %s reverse -z test_rev -t main --origin foo.com '
                       '-v test_view -s %s -u %s -p %s --config-file %s' % (
                           EXEC, self.server_name, USERNAME,
                           PASSWORD, USER_CONFIG))

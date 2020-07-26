@@ -74,12 +74,12 @@ class TestZoneImport(unittest.TestCase):
     self.core_instance = roster_core.Core(u'sharrell', config_instance)
 
     self.core_instance.MakeView(u'external')
-    self.core_instance.MakeZone(u'sub.university.lcl', u'master',
+    self.core_instance.MakeZone(u'sub.university.lcl', u'main',
                                 u'sub.university.lcl.', view_name=u'external')
-    self.core_instance.MakeZone(u'0.168.192.in-addr.arpa', u'master',
+    self.core_instance.MakeZone(u'0.168.192.in-addr.arpa', u'main',
                                 u'0.168.192.in-addr.arpa.',
                                 view_name=u'external')
-    self.core_instance.MakeZone(u'8.0.e.f.f.3.ip6.arpa', u'master',
+    self.core_instance.MakeZone(u'8.0.e.f.f.3.ip6.arpa', u'main',
                                 u'8.0.e.f.f.3.ip6.arpa.', view_name=u'external')
     self.core_instance.MakeReverseRangeZoneAssignment(
         u'0.168.192.in-addr.arpa', u'192.168.0/24')
@@ -119,7 +119,7 @@ class TestZoneImport(unittest.TestCase):
                         u'minimum_seconds': 86400, 'record_type': u'soa',
                         'view_name': u'external', 'last_user': u'sharrell',
                         'zone_name': u'sub.university.lcl',
-                        u'admin_email': u'hostmaster.ns.university.lcl.',
+                        u'admin_email': u'hostmain.ns.university.lcl.',
                         u'expiry_seconds': 3600000}])
     self.assertEquals(self.core_instance.ListRecords(record_type=u'ns'),
                       [{'target': u'@',
@@ -252,7 +252,7 @@ class TestZoneImport(unittest.TestCase):
                         u'minimum_seconds': 86400, 'record_type': u'soa',
                         'view_name': u'external', 'last_user': u'sharrell',
                         'zone_name': u'sub.university.lcl',
-                        u'admin_email': u'hostmaster.ns.university.lcl.',
+                        u'admin_email': u'hostmain.ns.university.lcl.',
                         u'expiry_seconds': 3600000}])
     self.assertEquals(self.core_instance.ListRecords(record_type=u'ns'),
                       [{'target': u'@',

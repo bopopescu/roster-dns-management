@@ -129,7 +129,7 @@ class TestDnsRecover(unittest.TestCase):
     self.core_instance.RemoveZone(u'eas.university.edu')
     self.assertFalse(self.core_instance.ListRecords())
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'university.edu', u'master',
+    self.core_instance.MakeZone(u'university.edu', u'main',
                                 u'university.edu.', view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'@', u'university.edu',
@@ -207,14 +207,14 @@ class TestDnsRecover(unittest.TestCase):
         self.core_instance.RemoveZone(zone)
     self.core_instance.MakeView(u'test_view')
     self.assertEqual(self.core_instance.ListViews(), [u'test_view'])
-    self.core_instance.MakeZone(u'university.edu', u'master',
+    self.core_instance.MakeZone(u'university.edu', u'main',
                                 u'university.edu.', view_name=u'test_view')
     self.assertEqual(
         self.core_instance.ListZones(),
         {u'university.edu':
-            {u'test_view': {'zone_type': u'master', 'zone_options': u'',
+            {u'test_view': {'zone_type': u'main', 'zone_options': u'',
                             'zone_origin': u'university.edu.'},
-             u'any': {'zone_type': u'master', 'zone_options': u'',
+             u'any': {'zone_type': u'main', 'zone_options': u'',
                       'zone_origin': u'university.edu.'}}})
     self.core_instance.MakeView(u'test_view2')
     self.core_instance.RemoveView(u'test_view')
@@ -242,7 +242,7 @@ class TestDnsRecover(unittest.TestCase):
     #Also testing invalid input response for dnsrecover
     self.assertEqual(output.communicate('x\nn\n'),
         ("Replaying action with id 5: MakeZone\n"
-         "with arguments: [u'university.edu', u'master', u'university.edu.', "
+         "with arguments: [u'university.edu', u'main', u'university.edu.', "
          "u'test_view', None, True]\n"
          "%s\n"
          "Would you like to run dnstreeexport now? [y/n] " #User inputs x
@@ -252,9 +252,9 @@ class TestDnsRecover(unittest.TestCase):
     self.assertEqual(
         self.core_instance.ListZones(),
         {u'university.edu':
-            {u'test_view': {'zone_type': u'master', 'zone_options': u'',
+            {u'test_view': {'zone_type': u'main', 'zone_options': u'',
                             'zone_origin': u'university.edu.'},
-             u'any': {'zone_type': u'master', 'zone_options': u'',
+             u'any': {'zone_type': u'main', 'zone_options': u'',
                       'zone_origin': u'university.edu.'}}})
 
   def testErrors(self):
@@ -276,7 +276,7 @@ class TestDnsRecover(unittest.TestCase):
     self.core_instance.MakeView(u'test_view')
     self.core_instance.MakeDnsServerSetViewAssignments(u'test_view', 1, u'set1')
 
-    self.core_instance.MakeZone(u'test_zone', u'master', u'university.lcl.', u'test_view')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'university.lcl.', u'test_view')
     self.core_instance.MakeRecord(u'soa', u'@', u'test_zone', {u'name_server': u'ns.university.lcl.', u'admin_email': '%s.university.lcl.' % USERNAME,
         u'refresh_seconds': 5, u'expiry_seconds': 5, u'minimum_seconds': 5, u'retry_seconds': 5, u'serial_number': 999}, u'test_view')
     self.core_instance.MakeRecord(u'ns', u'@', u'test_zone', {u'name_server': u'ns.university.lcl.'}, u'test_view')

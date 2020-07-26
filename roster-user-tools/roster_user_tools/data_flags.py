@@ -249,7 +249,7 @@ class Zone(core_flags.CoreFlags):
       self.AddFlagRule('origin', required=make, command='forward')
       self.parser.add_option('-t', '--type', action='store', dest='type',
                              help='String of zone type. '
-                             '(master, slave, forward)', metavar='<type>',
+                             '(main, subordinate, forward)', metavar='<type>',
                              default=None)
       self.AddFlagRule('type', required=make, command='forward')
       self.AddFlagRule('type', required=make, command='reverse')

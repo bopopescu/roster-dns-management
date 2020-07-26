@@ -128,7 +128,7 @@ class TestCheckConfig(unittest.TestCase):
     self.core_instance.RemoveZone(u'eas.university.edu')
 
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'sub.university.lcl', u'master',
+    self.core_instance.MakeZone(u'sub.university.lcl', u'main',
                                 u'sub.university.lcl.', view_name=u'test_view')
 
   def tearDown(self):
@@ -204,11 +204,11 @@ class TestCheckConfig(unittest.TestCase):
 
     #Global options
     self.core_instance.MakeNamedConfGlobalOption(u'set1', 
-        u'options { check-names master ignore; };\n')
+        u'options { check-names main ignore; };\n')
 
     #View options
     self.core_instance.MakeDnsServerSetViewAssignments(u'test_view', 1, u'set1',
-        view_options=u'check-names master warn;\n')
+        view_options=u'check-names main warn;\n')
 
     #Zone options
     self.core_instance.UpdateZone(u'sub.university.lcl', 
@@ -223,7 +223,7 @@ class TestCheckConfig(unittest.TestCase):
         "ERROR: dns_rdata_fromtext: "
         "%s/localhost/named/test_view/sub.university.lcl.db:7: "
         "near '%s.lcl.': bad name (check-names)\n"
-        "zone sub.university.lcl/IN: loading from master file "
+        "zone sub.university.lcl/IN: loading from main file "
         "%s/localhost/named/test_view/sub.university.lcl.db "
         "failed: bad name (check-names)\n"
         "zone sub.university.lcl/IN: not loaded due to errors.\n" % (self.root_config_dir,
@@ -254,10 +254,10 @@ class TestCheckConfig(unittest.TestCase):
 
     #Global options
     self.core_instance.MakeNamedConfGlobalOption(u'set1',
-        u'options { check-names master ignore; };\n')
+        u'options { check-names main ignore; };\n')
 
     #Test single zone check
-    self.core_instance.MakeZone(u'test_zone0', u'master',
+    self.core_instance.MakeZone(u'test_zone0', u'main',
                                 u'test_zone0.university.lcl.', view_name=u'external')
     self.core_instance.MakeRecord(
         u'soa', u'@', u'test_zone0',
@@ -300,7 +300,7 @@ class TestCheckConfig(unittest.TestCase):
     #Test multiple zones and measure speedup
     #Create enough zones/records to see time difference in parallel execution
     for i in range(1, 50):
-      self.core_instance.MakeZone(u'test_zone%s' % i, u'master',
+      self.core_instance.MakeZone(u'test_zone%s' % i, u'main',
                                   u'test_zone%s.university.lcl.' % i,
                                   view_name=u'external')
       self.core_instance.MakeRecord(
@@ -400,7 +400,7 @@ class TestCheckConfig(unittest.TestCase):
         'zone sub.university.lcl/IN: not loaded due to errors.\n', ''),
         'ERROR: %s/%s/named/test_view/sub.university.lcl.db:16: '
         'unknown RR type \'aaq\'\n'
-        'zone sub.university.lcl/IN: loading from master '
+        'zone sub.university.lcl/IN: loading from main '
         'file %s/%s/named/test_view/sub.university.lcl.db '
         'failed: unknown class/type\n' % (self.root_config_dir, DNS_SERVER,
             self.root_config_dir, DNS_SERVER))
@@ -432,7 +432,7 @@ class TestCheckConfig(unittest.TestCase):
     self.TarReplaceString(
         tar_file,
         '%s/named.conf.a' % DNS_SERVER,
-        'type master;', 'type bad_type;')
+        'type main;', 'type bad_type;')
     command = os.popen('python %s --config-file %s' % (
         EXEC, CONFIG_FILE))
     self.assertTrue(re.search('[\']bad_type[\'] unexpected',command.read()))
@@ -441,12 +441,12 @@ class TestCheckConfig(unittest.TestCase):
     self.TarReplaceString(
         tar_file,
         '%s/named.conf.a' % DNS_SERVER, 
-        'type bad_type;', 'type master;')
+        'type bad_type;', 'type main;')
     self.TarReplaceString(
         tar_file,
         '%s/named.conf.a' % DNS_SERVER,
-        'type master;',
-        'type master;\nwrong;')
+        'type main;',
+        'type main;\nwrong;')
     command = os.popen('python %s --config-file %s' % (
         EXEC, CONFIG_FILE))
     lines = command.read()
@@ -487,9 +487,9 @@ class TestCheckConfig(unittest.TestCase):
     self.core_instance.MakeNamedConfGlobalOption(u'set_1', u'#options')
     self.core_instance.MakeNamedConfGlobalOption(u'set_2', u'#options')
 
-    self.core_instance.MakeZone(u'test_zone1', u'master', u'test_zone1.', 
+    self.core_instance.MakeZone(u'test_zone1', u'main', u'test_zone1.', 
         view_name=u'test_view1')
-    self.core_instance.MakeZone(u'test_zone2', u'master', u'test_zone2.', 
+    self.core_instance.MakeZone(u'test_zone2', u'main', u'test_zone2.', 
         view_name=u'test_view2')
     self.assertEqual(self.core_instance.ListRecords(), [])
     command = os.popen('python %s -f test_data/test_zone.db '
@@ -521,7 +521,7 @@ class TestCheckConfig(unittest.TestCase):
     self.assertEqual(command.read(), '')
     command.close()
 
-    self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_1/named.conf.a', 'type master;', 'type bad1;')
+    self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_1/named.conf.a', 'type main;', 'type bad1;')
 
     command = os.popen('python %s --config-file %s' % (
         EXEC, CONFIG_FILE))
@@ -529,8 +529,8 @@ class TestCheckConfig(unittest.TestCase):
     self.assertEqual(command.read(), "ERROR: root_config_dir/server_1/named.conf.a:12: 'bad1' unexpected\n")
     command.close()
 
-    self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_1/named.conf.a', 'type bad1;', 'type master;')
-    self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_2/named.conf.a', 'type master;', 'type bad2;')
+    self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_1/named.conf.a', 'type bad1;', 'type main;')
+    self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_2/named.conf.a', 'type main;', 'type bad2;')
 
     command = os.popen('python %s --config-file %s' % (
         EXEC, CONFIG_FILE))
@@ -538,7 +538,7 @@ class TestCheckConfig(unittest.TestCase):
     self.assertEqual(command.read(), "ERROR: root_config_dir/server_2/named.conf.a:12: 'bad2' unexpected\n")
     command.close()
 
-    self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_2/named.conf.a', 'type bad2;', 'type master;')
+    self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_2/named.conf.a', 'type bad2;', 'type main;')
 
     self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_1/named/test_view1/test_zone1.db', 'cname', 'bname')
     self.TarReplaceString(os.path.join('test_data/backup_dir', filename), u'server_2/named/test_view2/test_zone2.db', 'cname', 'bname')

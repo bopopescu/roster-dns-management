@@ -536,7 +536,7 @@ class CoreHelpers(object):
     zone_name = u'in-addr.arpa'
     for i in range(0, len(cidr_octets)):
       zone_name = u'%s.%s' % (cidr_octets[i], zone_name)
-    zone_type = u'master'
+    zone_type = u'main'
     zone_origin = u'%s.' % zone_name
     self.core_instance.MakeZone(zone_name, zone_type, zone_origin)
 

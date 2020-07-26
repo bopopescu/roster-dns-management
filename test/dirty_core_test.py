@@ -132,11 +132,11 @@ class TestSetCoreDirty(unittest.TestCase):
     command.close()
     
     command = os.popen('python %s/dnsmkzone forward -z test_zone -v test_view '
-                       '--origin=university.edu. -t master '
+                       '--origin=university.edu. -t main '
                        '-u %s -p %s -s %s' % (
                        USER_TOOLS_DIR, USERNAME, PASSWORD, self.server_name))
     self.assertEqual(command.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone zone_type: master zone_origin: university.edu. zone_options: None view_name: test_view\n')
+        'ADDED FORWARD ZONE: zone_name: test_zone zone_type: main zone_origin: university.edu. zone_options: None view_name: test_view\n')
     command.close()
 
     command = os.popen('python %s/dnsmkrecord soa '

@@ -79,11 +79,11 @@ class TestUser(unittest.TestCase):
                       self.db_instance, self.log_instance)
 
   def testAuthorize(self):
-    self.core_instance.MakeZone(u'192.168.0.rev', u'master',
+    self.core_instance.MakeZone(u'192.168.0.rev', u'main',
                                 u'0.168.192.IN-ADDR.ARPA.')
-    self.core_instance.MakeZone(u'192.168.1.rev', u'master',
+    self.core_instance.MakeZone(u'192.168.1.rev', u'main',
                                 u'1.168.192.IN-ADDR.ARPA.')
-    self.core_instance.MakeZone(u'10.10.rev', u'master',
+    self.core_instance.MakeZone(u'10.10.rev', u'main',
                                 u'10.10.IN-ADDR.ARPA.')
     self.core_instance.MakeReverseRangeZoneAssignment(u'10.10.rev', u'10.10/16')
     self.core_instance.MakeReverseRangePermission(u'10.10.5/24', u'cs', 

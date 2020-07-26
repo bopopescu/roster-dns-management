@@ -155,7 +155,7 @@ class TestRosterClientLib(unittest.TestCase):
 
   def testRunFunction(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'university.edu.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'university.edu.',
                                 view_name=u'test_view')
 
     zones = roster_client_lib.RunFunction(
@@ -164,8 +164,8 @@ class TestRosterClientLib(unittest.TestCase):
     self.assertEqual(
         zones,
         {'test_zone': {'test_view': {'zone_type':
-            'master', 'zone_options': '', 'zone_origin': 'university.edu.'},
-         'any': {'zone_type': 'master', 'zone_options': '',
+            'main', 'zone_options': '', 'zone_origin': 'university.edu.'},
+         'any': {'zone_type': 'main', 'zone_options': '',
                  'zone_origin': 'university.edu.'}}})
 
     credfile_handle = open(CREDFILE, 'w')

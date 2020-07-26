@@ -1294,19 +1294,19 @@ class TestComplete(unittest.TestCase):
         'ADDED DNS SERVER SET VIEW ASSIGNMENT: view_name: test_view dns_server_set: set3 view_order: 1 view_options: None\n')
     command.close()
     ## User tool: dnsmkzone
-    ## dnsmkzone forward -z test_zone -v test_view -t master --origin university.edu.
+    ## dnsmkzone forward -z test_zone -v test_view -t main --origin university.edu.
     ## --bootstrap-zone --bootstrap-admin-email=university.edu.
     ## --bootstrap-nameserver=ns.university.edu.
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'forward -z test_zone -v test_view -t master --origin university.edu. '
+        'forward -z test_zone -v test_view -t main --origin university.edu. '
         '--bootstrap-zone --bootstrap-admin-email=university.edu. '
         '--bootstrap-nameserver=ns.university.edu. '
         '-u %s -p %s -s %s --config-file %s' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
     self.assertEqual(command.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone zone_type: master '
+        'ADDED FORWARD ZONE: zone_name: test_zone zone_type: main '
         'zone_origin: university.edu. zone_options: None view_name: test_view\n'
         'ADDED SOA: @ zone_name: test_zone view_name: test_view ttl: 3600 '
         'refresh_seconds: 30 expiry_seconds: 30 '
@@ -1315,18 +1315,18 @@ class TestComplete(unittest.TestCase):
         'ADDED NS: @ zone_name: test_zone view_name: test_view ttl: 3600 '
         'name_server: ns.university.edu.\n')
     ## User tool: dnsmkzone
-    ## dnsmkzone forward -z test_slave_zone -v test_view -t slave
+    ## dnsmkzone forward -z test_subordinate_zone -v test_view -t subordinate
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'forward -z test_slave_zone -v test_view -t slave --dont-make-any '
-        '--origin slave.university.edu. --options="masters { 192.168.0.1; };" '
+        'forward -z test_subordinate_zone -v test_view -t subordinate --dont-make-any '
+        '--origin subordinate.university.edu. --options="mains { 192.168.0.1; };" '
         '-u %s -p %s -s %s --config-file %s ' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
     self.assertEqual(command.read(),
-        'ADDED FORWARD ZONE: zone_name: test_slave_zone zone_type: '
-        'slave zone_origin: slave.university.edu. '
-        'zone_options: masters { 192.168.0.1; }; view_name: test_view\n')
+        'ADDED FORWARD ZONE: zone_name: test_subordinate_zone zone_type: '
+        'subordinate zone_origin: subordinate.university.edu. '
+        'zone_options: mains { 192.168.0.1; }; view_name: test_view\n')
     command.close()
     ## User tool: dnsrmrecord
     ## dnsrmrecord ns --name-server ns.university.edu. -z test_zone -t @ -v test_view
@@ -1342,81 +1342,81 @@ class TestComplete(unittest.TestCase):
         'REMOVED NS: @ zone_name: test_zone view_name: test_view ttl: 3600\n'
         '    name_server: ns.university.edu.\n')
     ## User tool: dnsmkzone
-    ## dnsmkzone forward -z test_zone2 -v test_view2 -t master --origin 1.168.192.in-addr.arpa.
+    ## dnsmkzone forward -z test_zone2 -v test_view2 -t main --origin 1.168.192.in-addr.arpa.
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'forward -z test_zone2 -v test_view2 -t master --origin 1.168.192.in-addr.arpa. '
+        'forward -z test_zone2 -v test_view2 -t main --origin 1.168.192.in-addr.arpa. '
         '-u %s -p %s -s %s --config-file %s ' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
     self.assertEqual(command.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone2 zone_type: master '
+        'ADDED FORWARD ZONE: zone_name: test_zone2 zone_type: main '
         'zone_origin: 1.168.192.in-addr.arpa. zone_options: None '
         'view_name: test_view2\n')
     command.close()
     ## User tool: dnsmkzone
-    ## dnsmkzone reverse -z test_zone3 -v test_view -t master --origin 2.168.192.in-addr.arpa.
+    ## dnsmkzone reverse -z test_zone3 -v test_view -t main --origin 2.168.192.in-addr.arpa.
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'reverse -z test_zone3 -v test_view -t master --origin 2.168.192.in-addr.arpa. '
+        'reverse -z test_zone3 -v test_view -t main --origin 2.168.192.in-addr.arpa. '
         '-u %s -p %s -s %s --config-file %s ' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
     self.assertEqual(command.read(),
-        'ADDED REVERSE ZONE: zone_name: test_zone3 zone_type: master '
+        'ADDED REVERSE ZONE: zone_name: test_zone3 zone_type: main '
         'zone_origin: 2.168.192.in-addr.arpa. zone_options: None '
         'view_name: test_view\n'
         'ADDED REVERSE RANGE ZONE ASSIGNMENT: zone_name: test_zone3 '
         'cidr_block: 192.168.2/24 \n')
     command.close()
     ## User tool: dnsmkzone
-    ## dnsmkzone reverse -z test_zone4 -v test_view2 -t master --origin 3.168.192.in-addr.arpa.
+    ## dnsmkzone reverse -z test_zone4 -v test_view2 -t main --origin 3.168.192.in-addr.arpa.
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'reverse -z test_zone4 -v test_view2 -t master --origin 3.168.192.in-addr.arpa. '
+        'reverse -z test_zone4 -v test_view2 -t main --origin 3.168.192.in-addr.arpa. '
         '-u %s -p %s -s %s --config-file %s ' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
     self.assertEqual(command.read(),
-        'ADDED REVERSE ZONE: zone_name: test_zone4 zone_type: master '
+        'ADDED REVERSE ZONE: zone_name: test_zone4 zone_type: main '
         'zone_origin: 3.168.192.in-addr.arpa. zone_options: None '
         'view_name: test_view2\n'
         'ADDED REVERSE RANGE ZONE ASSIGNMENT: zone_name: test_zone4 '
         'cidr_block: 192.168.3/24 \n')
     command.close()
     ## User tool: dnsmkzone
-    ## dnsmkzone reverse -v test_view -t master --origin 5.168.192.in-addr.arpa.
+    ## dnsmkzone reverse -v test_view -t main --origin 5.168.192.in-addr.arpa.
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'forward -z test_zone5 -v test_view -t master --origin 5.168.192.in-addr.arpa. '
+        'forward -z test_zone5 -v test_view -t main --origin 5.168.192.in-addr.arpa. '
         '-u %s -p %s -s %s --config-file %s ' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
     self.assertEqual(command.read(),
-        'ADDED FORWARD ZONE: zone_name: test_zone5 zone_type: master '
+        'ADDED FORWARD ZONE: zone_name: test_zone5 zone_type: main '
         'zone_origin: 5.168.192.in-addr.arpa. zone_options: None '
         'view_name: test_view\n')
     command.close()
     ## User tool: dnsmkzone
-    ## dnsmkzone reverse -z test_zone6 -v test_view2 -t master --origin 6.168.192.in-addr.arpa.
+    ## dnsmkzone reverse -z test_zone6 -v test_view2 -t main --origin 6.168.192.in-addr.arpa.
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'reverse -z test_zone6 -v test_view2 -t master --origin 6.168.192.in-addr.arpa. '
+        'reverse -z test_zone6 -v test_view2 -t main --origin 6.168.192.in-addr.arpa. '
         '-u %s -p %s -s %s --config-file %s ' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
     self.assertEqual(command.read(),
-        'ADDED REVERSE ZONE: zone_name: test_zone6 zone_type: master '
+        'ADDED REVERSE ZONE: zone_name: test_zone6 zone_type: main '
         'zone_origin: 6.168.192.in-addr.arpa. zone_options: None '
         'view_name: test_view2\n'
         'ADDED REVERSE RANGE ZONE ASSIGNMENT: zone_name: test_zone6 '
         'cidr_block: 192.168.6/24 \n')
     command.close()
     ## User tool: dnsmkzone
-    ## dnsmkzone reverse -v test_view -t master --origin 5.168.192.in-addr.arpa.
+    ## dnsmkzone reverse -v test_view -t main --origin 5.168.192.in-addr.arpa.
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'forward -z test_zone5 -v test_view -t master --origin 5.168.192.in-addr.arpa. '
+        'forward -z test_zone5 -v test_view -t main --origin 5.168.192.in-addr.arpa. '
         '-u %s -p %s -s %s --config-file %s ' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
@@ -1426,10 +1426,10 @@ class TestComplete(unittest.TestCase):
         ' (1062, "Duplicate entry \'test_zone5-test_view_dep\' for key 2"')
     command.close()
     ## User tool: dnsmkzone
-    ## dnsmkzone reverse -z test_zone6 -v test_view2 -t master --origin 6.168.192.in-addr.arpa.
+    ## dnsmkzone reverse -z test_zone6 -v test_view2 -t main --origin 6.168.192.in-addr.arpa.
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'reverse -z test_zone6 -v test_view2 -t master --origin 6.168.192.in-addr.arpa. '
+        'reverse -z test_zone6 -v test_view2 -t main --origin 6.168.192.in-addr.arpa. '
         '-u %s -p %s -s %s --config-file %s ' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
@@ -1449,19 +1449,19 @@ class TestComplete(unittest.TestCase):
     self.assertEqual(command.read(),
         "zone_name       view_name  zone_type zone_origin             zone_options                cidr_block\n"
         "---------------------------------------------------------------------------------------------------\n"
-        "test_slave_zone test_view  slave     slave.university.edu.   'masters { 192.168.0.1; };' -\n"
-        "test_zone       test_view  master    university.edu.                                     -\n"
-        "test_zone       any        master    university.edu.                                     -\n"
-        "test_zone3      test_view  master    2.168.192.in-addr.arpa.                             192.168.2/24\n"
-        "test_zone3      any        master    2.168.192.in-addr.arpa.                             192.168.2/24\n"
-        "test_zone2      test_view2 master    1.168.192.in-addr.arpa.                             -\n"
-        "test_zone2      any        master    1.168.192.in-addr.arpa.                             -\n"
-        "test_zone5      test_view  master    5.168.192.in-addr.arpa.                             -\n"
-        "test_zone5      any        master    5.168.192.in-addr.arpa.                             -\n"
-        "test_zone4      test_view2 master    3.168.192.in-addr.arpa.                             192.168.3/24\n"
-        "test_zone4      any        master    3.168.192.in-addr.arpa.                             192.168.3/24\n"
-        "test_zone6      test_view2 master    6.168.192.in-addr.arpa.                             192.168.6/24\n"
-        "test_zone6      any        master    6.168.192.in-addr.arpa.                             192.168.6/24\n"
+        "test_subordinate_zone test_view  subordinate     subordinate.university.edu.   'mains { 192.168.0.1; };' -\n"
+        "test_zone       test_view  main    university.edu.                                     -\n"
+        "test_zone       any        main    university.edu.                                     -\n"
+        "test_zone3      test_view  main    2.168.192.in-addr.arpa.                             192.168.2/24\n"
+        "test_zone3      any        main    2.168.192.in-addr.arpa.                             192.168.2/24\n"
+        "test_zone2      test_view2 main    1.168.192.in-addr.arpa.                             -\n"
+        "test_zone2      any        main    1.168.192.in-addr.arpa.                             -\n"
+        "test_zone5      test_view  main    5.168.192.in-addr.arpa.                             -\n"
+        "test_zone5      any        main    5.168.192.in-addr.arpa.                             -\n"
+        "test_zone4      test_view2 main    3.168.192.in-addr.arpa.                             192.168.3/24\n"
+        "test_zone4      any        main    3.168.192.in-addr.arpa.                             192.168.3/24\n"
+        "test_zone6      test_view2 main    6.168.192.in-addr.arpa.                             192.168.6/24\n"
+        "test_zone6      any        main    6.168.192.in-addr.arpa.                             192.168.6/24\n"
         "\n")
     command.close()
     ## User tool: dnslszone
@@ -1475,13 +1475,13 @@ class TestComplete(unittest.TestCase):
     self.assertEqual(command.read(),
         "zone_name       view_name  zone_type zone_origin             zone_options                cidr_block\n"
         "---------------------------------------------------------------------------------------------------\n"
-        "test_slave_zone test_view  slave     slave.university.edu.   'masters { 192.168.0.1; };' -\n"
-        "test_zone       test_view  master    university.edu.                                     -\n"
-        "test_zone       any        master    university.edu.                                     -\n"
-        "test_zone2      test_view2 master    1.168.192.in-addr.arpa.                             -\n"
-        "test_zone2      any        master    1.168.192.in-addr.arpa.                             -\n"
-        "test_zone5      test_view  master    5.168.192.in-addr.arpa.                             -\n"
-        "test_zone5      any        master    5.168.192.in-addr.arpa.                             -\n"
+        "test_subordinate_zone test_view  subordinate     subordinate.university.edu.   'mains { 192.168.0.1; };' -\n"
+        "test_zone       test_view  main    university.edu.                                     -\n"
+        "test_zone       any        main    university.edu.                                     -\n"
+        "test_zone2      test_view2 main    1.168.192.in-addr.arpa.                             -\n"
+        "test_zone2      any        main    1.168.192.in-addr.arpa.                             -\n"
+        "test_zone5      test_view  main    5.168.192.in-addr.arpa.                             -\n"
+        "test_zone5      any        main    5.168.192.in-addr.arpa.                             -\n"
         "\n")
     command.close()
     ## User tool: dnslszone
@@ -1495,12 +1495,12 @@ class TestComplete(unittest.TestCase):
     self.assertEqual(command.read(),
         'zone_name  view_name  zone_type zone_origin             zone_options cidr_block\n'
         '-------------------------------------------------------------------------------\n'
-        'test_zone3 test_view  master    2.168.192.in-addr.arpa.              192.168.2/24\n'
-        'test_zone3 any        master    2.168.192.in-addr.arpa.              192.168.2/24\n'
-        'test_zone4 test_view2 master    3.168.192.in-addr.arpa.              192.168.3/24\n'
-        'test_zone4 any        master    3.168.192.in-addr.arpa.              192.168.3/24\n'
-        'test_zone6 test_view2 master    6.168.192.in-addr.arpa.              192.168.6/24\n'
-        'test_zone6 any        master    6.168.192.in-addr.arpa.              192.168.6/24\n\n')
+        'test_zone3 test_view  main    2.168.192.in-addr.arpa.              192.168.2/24\n'
+        'test_zone3 any        main    2.168.192.in-addr.arpa.              192.168.2/24\n'
+        'test_zone4 test_view2 main    3.168.192.in-addr.arpa.              192.168.3/24\n'
+        'test_zone4 any        main    3.168.192.in-addr.arpa.              192.168.3/24\n'
+        'test_zone6 test_view2 main    6.168.192.in-addr.arpa.              192.168.6/24\n'
+        'test_zone6 any        main    6.168.192.in-addr.arpa.              192.168.6/24\n\n')
     command.close()
     ## User tool: dnsrmzone
     ## dnsrmzone -z test_zone5 -v test_view
@@ -1553,16 +1553,16 @@ class TestComplete(unittest.TestCase):
     self.assertEqual(command.read(),
         "zone_name       view_name  zone_type zone_origin             zone_options                cidr_block\n"
         "---------------------------------------------------------------------------------------------------\n"
-        "test_slave_zone test_view  slave     slave.university.edu.   'masters { 192.168.0.1; };' -\n"
-        "test_zone       test_view  master    university.edu.                                     -\n"
-        "test_zone       any        master    university.edu.                                     -\n"
-        "test_zone3      test_view  master    2.168.192.in-addr.arpa.                             192.168.2/24\n"
-        "test_zone3      any        master    2.168.192.in-addr.arpa.                             192.168.2/24\n"
-        "test_zone2      test_view2 master    1.168.192.in-addr.arpa.                             -\n"
-        "test_zone2      any        master    1.168.192.in-addr.arpa.                             -\n"
-        "test_zone5      any        master    5.168.192.in-addr.arpa.                             -\n"
-        "test_zone4      test_view2 master    3.168.192.in-addr.arpa.                             192.168.3/24\n"
-        "test_zone4      any        master    3.168.192.in-addr.arpa.                             192.168.3/24\n"
+        "test_subordinate_zone test_view  subordinate     subordinate.university.edu.   'mains { 192.168.0.1; };' -\n"
+        "test_zone       test_view  main    university.edu.                                     -\n"
+        "test_zone       any        main    university.edu.                                     -\n"
+        "test_zone3      test_view  main    2.168.192.in-addr.arpa.                             192.168.2/24\n"
+        "test_zone3      any        main    2.168.192.in-addr.arpa.                             192.168.2/24\n"
+        "test_zone2      test_view2 main    1.168.192.in-addr.arpa.                             -\n"
+        "test_zone2      any        main    1.168.192.in-addr.arpa.                             -\n"
+        "test_zone5      any        main    5.168.192.in-addr.arpa.                             -\n"
+        "test_zone4      test_view2 main    3.168.192.in-addr.arpa.                             192.168.3/24\n"
+        "test_zone4      any        main    3.168.192.in-addr.arpa.                             192.168.3/24\n"
         "\n")
     command.close()
     ## User tool: dnsrmzone
@@ -3100,16 +3100,16 @@ class TestComplete(unittest.TestCase):
     self.assertEqual(output,
         '')
 
-    ## dnsmkzone forward -z sub.university.edu -v test_view -t master --origin sub.university.edu.
+    ## dnsmkzone forward -z sub.university.edu -v test_view -t main --origin sub.university.edu.
     command_string = (
         'python ../roster-user-tools/scripts/dnsmkzone '
-        'forward -z sub.university.edu -v test_view -t master '
+        'forward -z sub.university.edu -v test_view -t main '
         '--origin sub.university.edu. '
         '-u %s -p %s -s %s --config-file %s ' % (
             USERNAME, PASSWORD, self.server_name, self.toolsconfig))
     command = os.popen(command_string)
     self.assertEqual(command.read(),
-        'ADDED FORWARD ZONE: zone_name: sub.university.edu zone_type: master '
+        'ADDED FORWARD ZONE: zone_name: sub.university.edu zone_type: main '
         'zone_origin: sub.university.edu. zone_options: None '
         'view_name: test_view\n')
     command.close()
@@ -3155,14 +3155,14 @@ class TestComplete(unittest.TestCase):
        ('Loading database from backup with ID %d\n'
         'Replaying action with id %d: MakeZone\n'
         'with arguments: [u\'sub.university.edu\', '
-        'u\'master\', u\'sub.university.edu.\', u\'test_view\', None, True]\n'
+        'u\'main\', u\'sub.university.edu.\', u\'test_view\', None, True]\n'
         'Replaying action with id %d: ProcessRecordsBatch\n'
         'with arguments: [[], [{u\'record_arguments\': '
         '{u\'refresh_seconds\': 10800L, u\'expiry_seconds\': '
         '3600000L, u\'name_server\': u\'ns.university.lcl.\', '
         'u\'minimum_seconds\': 86400L, u\'retry_seconds\': 3600L, '
         'u\'serial_number\': 794L, u\'admin_email\': '
-        'u\'hostmaster.ns.university.lcl.\'}, u\'record_type\': u\'soa\', '
+        'u\'hostmain.ns.university.lcl.\'}, u\'record_type\': u\'soa\', '
         'u\'ttl\': 3600L, u\'record_target\': u\'@\', u\'record_zone_name\': '
         'u\'sub.university.edu\', u\'record_view_dependency\': '
         'u\'test_view\'}, {u\'record_arguments\': '

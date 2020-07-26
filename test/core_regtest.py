@@ -386,7 +386,7 @@ class TestCore(unittest.TestCase):
   def testZoneViewAssignmentsError(self):
     self.core_instance.MakeView(u'test_view')
     self.core_instance.MakeView(u'troll_view')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
         view_name=u'test_view')
 
     #The reason why we try this twice, (first here, and after we create an SOA)
@@ -487,46 +487,46 @@ class TestCore(unittest.TestCase):
     self.core_instance.RemoveZone(u'eas.university.edu')
     self.core_instance.MakeView(u'test_view')
     self.assertFalse(self.core_instance.ListZones())
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.assertEqual(self.core_instance.ListZones(), {u'test_zone':
-        {u'any': {'zone_type': u'master', 'zone_options': '',
+        {u'any': {'zone_type': u'main', 'zone_options': '',
                   'zone_origin': u'test_zone.'},
-         u'test_view': {'zone_type': u'master', 'zone_options': '',
+         u'test_view': {'zone_type': u'main', 'zone_options': '',
                         'zone_origin': u'test_zone.'}}})
 
     self.assertTrue(self.core_instance.RemoveZone(u'test_zone'))
     self.assertFalse(self.core_instance.ListZones())
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.')
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.assertEqual(self.core_instance.ListZones(), {u'test_zone':
-        {u'any': {'zone_type': u'master', 'zone_options': '',
+        {u'any': {'zone_type': u'main', 'zone_options': '',
                   'zone_origin': u'test_zone.'},
-         u'test_view': {'zone_type': u'master', 'zone_options': '',
+         u'test_view': {'zone_type': u'main', 'zone_options': '',
                         'zone_origin': u'test_zone.'}}})
     self.assertTrue(self.core_instance.RemoveZone(u'test_zone',
                                                   view_name=u'test_view'))
     self.assertEqual(self.core_instance.ListZones(), {u'test_zone':
-        {u'any': {'zone_type': u'master', 'zone_options': '',
+        {u'any': {'zone_type': u'main', 'zone_options': '',
                   'zone_origin': 'test_zone.'}}})
 
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.',
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.',
                                 view_name=u'test_view')
     self.assertTrue(self.core_instance.UpdateZone(
                     u'test_zone', update_zone_name=u'not_test_zone'))
 
     self.assertEqual(self.core_instance.ListZones(), {u'not_test_zone':
-        {u'any': {'zone_type': u'master', 'zone_options': '',
+        {u'any': {'zone_type': u'main', 'zone_options': '',
                   'zone_origin': u'test_zone.'},
-         u'test_view': {'zone_type': u'master', 'zone_options': '',
+         u'test_view': {'zone_type': u'main', 'zone_options': '',
                         'zone_origin': u'test_zone.'}}})
 
     self.assertEqual(self.core_instance.ListZones(), {u'not_test_zone':
-        {u'any': {'zone_type': u'master', 'zone_options': '',
+        {u'any': {'zone_type': u'main', 'zone_options': '',
                   'zone_origin': u'test_zone.'},
-         u'test_view': {'zone_type': u'master', 'zone_options': '',
+         u'test_view': {'zone_type': u'main', 'zone_options': '',
                         'zone_origin': u'test_zone.'}}})
     self.assertRaises(errors.CoreError, self.core_instance.MakeZone,
                       u'test_zone', u'wrongtype', u'test_zone.')
@@ -565,7 +565,7 @@ class TestCore(unittest.TestCase):
                     [u'a', u'aaaa']}]})
 
     #testing a zone that cs doesn't have access to
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.')
     self.assertRaises(errors.AuthorizationError, 
         self.core_instance.UpdateGroupForwardPermission, 
         u'test_zone', u'cs', [u'a', u'aaaa'])
@@ -616,7 +616,7 @@ class TestCore(unittest.TestCase):
                        'cidr_block': u'192.168.1.0/24'}]})
 
     #testing a cidr that cs doesn't have access to
-    self.core_instance.MakeZone(u'test_zone', u'master', u'test_zone.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'test_zone.')
     self.assertRaises(errors.AuthorizationError,
         self.core_instance.UpdateGroupReversePermission, 
         u'192.168.1.0/24', u'cs', [u'cname', u'ptr', u'ns'])
@@ -633,22 +633,22 @@ class TestCore(unittest.TestCase):
 
   def testMakeZoneZoneOriginZoneTypeViewDependencyError(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'test_zone1', u'master', u'test_zone.')
-    self.core_instance.MakeZone(u'test_zone2', u'slave', u'test_zone.')
+    self.core_instance.MakeZone(u'test_zone1', u'main', u'test_zone.')
+    self.core_instance.MakeZone(u'test_zone2', u'subordinate', u'test_zone.')
     self.assertRaises(MySQLdb.IntegrityError,
-      self.core_instance.MakeZone, u'test_zone3', u'master', u'test_zone.')
+      self.core_instance.MakeZone, u'test_zone3', u'main', u'test_zone.')
 
     #Raises since the above zones were made in the any view.
     self.assertRaises(MySQLdb.IntegrityError,
-      self.core_instance.MakeZone, u'test_zone4', u'master', u'test_zone.', 
+      self.core_instance.MakeZone, u'test_zone4', u'main', u'test_zone.', 
           view_name=u'test_view')
 
     #This should work fine, though.
-    self.core_instance.MakeZone(u'test_zone4', u'master', u'test_zone.', 
+    self.core_instance.MakeZone(u'test_zone4', u'main', u'test_zone.', 
         view_name=u'test_view', make_any=False)
 
   def testReverseRangeZoneAssignmentMakeRemoveListUpdateRemove(self):
-    self.core_instance.MakeZone(u'10.in-addr.arpa', u'master',
+    self.core_instance.MakeZone(u'10.in-addr.arpa', u'main',
                                 u'10.in-addr.arpa.')
     self.assertFalse(self.core_instance.ListReverseRangeZoneAssignments())
     self.core_instance.MakeReverseRangeZoneAssignment(u'10.in-addr.arpa',
@@ -737,14 +737,14 @@ class TestCore(unittest.TestCase):
 
   def testRecordMakeRemoveListUpdate(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'university.edu', u'master',
+    self.core_instance.MakeZone(u'university.edu', u'main',
                                 u'university.edu.')
-    self.core_instance.MakeZone(u'university.edu', u'master',
+    self.core_instance.MakeZone(u'university.edu', u'main',
                                 u'university.edu.', view_name=u'test_view')
-    self.core_instance.MakeZone(u'university.edu_rev', u'master',
+    self.core_instance.MakeZone(u'university.edu_rev', u'main',
                                 u'0.168.192.in-addr.arpa.')
-    self.core_instance.MakeZone(u'university_slave.edu', u'slave', 
-                                u'university_slave.edu.')
+    self.core_instance.MakeZone(u'university_subordinate.edu', u'subordinate', 
+                                u'university_subordinate.edu.')
     self.assertFalse(self.core_instance.ListRecords())
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'university.edu',
@@ -755,7 +755,7 @@ class TestCore(unittest.TestCase):
          u'minimum_seconds': 5}, view_name=u'test_view')
 
     self.assertRaises(errors.InvalidInputError, self.core_instance.MakeRecord,
-                       u'a', u'target', u'university_slave.edu',
+                       u'a', u'target', u'university_subordinate.edu',
                       {u'assignment_ip': u'192.168.0.55'})
     self.assertRaises(errors.UnexpectedDataError, self.core_instance.MakeRecord,
                                   u'ns', u'test-target', u'university.edu',
@@ -909,7 +909,7 @@ class TestCore(unittest.TestCase):
                        'record_type': u'mx', 'view_name': u'any',
                        'last_user': u'sharrell', 'zone_name': u'university.edu',
                        u'mail_server': u'smtp-1.university.edu.'}])
-    self.core_instance.MakeZone(u'ipv6_zone', u'master', u'ipv6.net.',
+    self.core_instance.MakeZone(u'ipv6_zone', u'main', u'ipv6.net.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'ipv6_zone',
@@ -994,15 +994,15 @@ class TestCore(unittest.TestCase):
     self.assertEqual(self.core_instance.ListRecords(), [])
     self.core_instance.MakeView(u'test_view')
 
-    self.core_instance.BootstrapZone(u'zone1', u'master', u'zone1_origin.', 
+    self.core_instance.BootstrapZone(u'zone1', u'main', u'zone1_origin.', 
         view_name=u'test_view', zone_bootstrap_dict={}, make_any=False)
-    self.core_instance.BootstrapZone(u'zone2', u'master', u'zone2_origin.', 
+    self.core_instance.BootstrapZone(u'zone2', u'main', u'zone2_origin.', 
         view_name=u'test_view', zone_bootstrap_dict={'admin_email': u'some_bro.'}, 
         make_any=False)
-    self.core_instance.BootstrapZone(u'zone3', u'master', u'zone3_origin.', 
+    self.core_instance.BootstrapZone(u'zone3', u'main', u'zone3_origin.', 
         view_name=u'test_view', zone_bootstrap_dict={'name_server': u'some_name_server.'}, 
         make_any=False)
-    self.core_instance.BootstrapZone(u'zone4', u'master', u'zone4_origin.', 
+    self.core_instance.BootstrapZone(u'zone4', u'main', u'zone4_origin.', 
         view_name=u'test_view', zone_bootstrap_dict={
           'admin_email': u'some_admin.', 'name_server': u'some_other_name_server.'}, 
         make_any=False)
@@ -1010,16 +1010,16 @@ class TestCore(unittest.TestCase):
     #Nothing interesting should happen here.
     self.assertEqual(self.core_instance.ListZones(), 
         {u'zone3': 
-          {u'test_view': {'zone_type': u'master', 'zone_options': u'', 
+          {u'test_view': {'zone_type': u'main', 'zone_options': u'', 
                           'zone_origin': u'zone3_origin.'}},
          u'zone2': 
-          {u'test_view': {'zone_type': u'master', 'zone_options': u'', 
+          {u'test_view': {'zone_type': u'main', 'zone_options': u'', 
                           'zone_origin': u'zone2_origin.'}},
          u'zone1': 
-          {u'test_view': {'zone_type': u'master', 'zone_options': u'', 
+          {u'test_view': {'zone_type': u'main', 'zone_options': u'', 
                           'zone_origin': u'zone1_origin.'}}, 
          u'zone4': 
-          {u'test_view': {'zone_type': u'master', 'zone_options': u'',
+          {u'test_view': {'zone_type': u'main', 'zone_options': u'',
                           'zone_origin': u'zone4_origin.'}}})
 
     #Here is the magic...
@@ -1067,9 +1067,9 @@ class TestCore(unittest.TestCase):
 
   def testSOA(self):
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'university.edu', u'master',
+    self.core_instance.MakeZone(u'university.edu', u'main',
                                 u'university.edu.')
-    self.core_instance.MakeZone(u'university.edu', u'master',
+    self.core_instance.MakeZone(u'university.edu', u'main',
                                 u'university.edu.', view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'university_edu', u'university.edu',
@@ -1161,16 +1161,16 @@ class TestCore(unittest.TestCase):
 
   def testListZoneTypes(self):
     self.assertEqual(set(self.core_instance.ListZoneTypes()), set([u'forward',
-                                                                   u'master',
-                                                                   u'slave',
+                                                                   u'main',
+                                                                   u'subordinate',
                                                                    u'hint']))
     self.assertTrue(self.core_instance.RemoveZoneType(u'forward'))
-    self.assertEqual(set(self.core_instance.ListZoneTypes()), set([u'master',
-                                                                   u'slave',
+    self.assertEqual(set(self.core_instance.ListZoneTypes()), set([u'main',
+                                                                   u'subordinate',
                                                                    u'hint']))
     self.core_instance.MakeZoneType(u'newtype')
-    self.assertEqual(set(self.core_instance.ListZoneTypes()), set([u'master',
-                                                                   u'slave',
+    self.assertEqual(set(self.core_instance.ListZoneTypes()), set([u'main',
+                                                                   u'subordinate',
                                                                    u'hint',
                                                                    u'newtype']))
 
@@ -1197,7 +1197,7 @@ class TestCore(unittest.TestCase):
     time.sleep(0.1)
     end_time = datetime.datetime.now().replace(microsecond=0)
     time.sleep(1.1)
-    self.core_instance.MakeZone(u'test_zone', u'master', u'university.edu.')
+    self.core_instance.MakeZone(u'test_zone', u'main', u'university.edu.')
     log_list = self.core_instance.ListAuditLog(begin_timestamp=begin_time,
                                                end_timestamp=end_time)
     self.assertEqual(len(log_list), 1)

@@ -110,12 +110,12 @@ class TestDnsZoneImport(unittest.TestCase):
     roster_client_lib.GetCredentials(USERNAME, u'test', credfile=CREDFILE,
                                      server_name=self.server_name)
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'sub.university.lcl', u'master',
+    self.core_instance.MakeZone(u'sub.university.lcl', u'main',
                                 u'sub.university.lcl.', view_name=u'test_view')
-    self.core_instance.MakeZone(u'0.168.192.in-addr.arpa', u'master',
+    self.core_instance.MakeZone(u'0.168.192.in-addr.arpa', u'main',
                                 u'0.168.192.in-addr.arpa.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'8.0.e.f.f.3.ip6.arpa', u'master',
+    self.core_instance.MakeZone(u'8.0.e.f.f.3.ip6.arpa', u'main',
                                 u'8.0.e.f.f.3.ip6.arpa.', view_name=u'test_view')
     self.core_instance.MakeReverseRangeZoneAssignment(
         u'0.168.192.in-addr.arpa', u'192.168.0/24')

@@ -244,7 +244,7 @@ class TestCheckConfig(unittest.TestCase):
     #   which is the default DNS server port. Later in this unittest, we'll have 
     #   a bunch of 'fake' DNS servers that we will export too. (server1 to serverN)
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(zone_name, u'master',
+    self.core_instance.MakeZone(zone_name, u'main',
                                 zone_origin, view_name=u'test_view',
                                 make_any=False)
     self.assertEqual(self.core_instance.ListRecords(), []) 
@@ -352,7 +352,7 @@ class TestCheckConfig(unittest.TestCase):
       server_zone_origin = u'%s.' % server_zone_name
       
       self.core_instance.MakeView(server_view_name)
-      self.core_instance.MakeZone(server_zone_name, u'master',
+      self.core_instance.MakeZone(server_zone_name, u'main',
                                   server_zone_origin, 
                                   view_name=server_view_name,
                                   make_any=False)
@@ -442,7 +442,7 @@ class TestCheckConfig(unittest.TestCase):
     self.assertTrue('ERROR: No dns server sets found.' in lines)
 
     self.core_instance.MakeView(u'test_view')
-    self.core_instance.MakeZone(u'sub.university.lcl', u'master',
+    self.core_instance.MakeZone(u'sub.university.lcl', u'main',
                                 u'sub.university.lcl.', view_name=u'test_view')
     self.assertEqual(self.core_instance.ListRecords(), []) 
     output = os.popen('python %s -f test_data/test_zone.db '

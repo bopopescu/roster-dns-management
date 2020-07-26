@@ -81,19 +81,19 @@ class TestCoreHelpers(unittest.TestCase):
     self.core_instance.MakeView(u'test_view')
     self.core_instance.MakeView(u'test_view2')
     self.core_instance.MakeView(u'test_view3')
-    self.core_instance.MakeZone(u'reverse_zone', u'master',
+    self.core_instance.MakeZone(u'reverse_zone', u'main',
                                 u'1.168.192.in-addr.arpa.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'forward_zone', u'master',
+    self.core_instance.MakeZone(u'forward_zone', u'main',
                                 u'university.lcl.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'forward_zone', u'master',
+    self.core_instance.MakeZone(u'forward_zone', u'main',
                                 u'university.lcl.',
                                 view_name=u'test_view3')
-    self.core_instance.MakeZone(u'reverse_zone', u'master',
+    self.core_instance.MakeZone(u'reverse_zone', u'main',
                                 u'1.168.192.in-addr.arpa.',
                                 view_name=u'test_view2')
-    self.core_instance.MakeZone(u'ipv6zone', u'master',
+    self.core_instance.MakeZone(u'ipv6zone', u'main',
                                 u'ipv6.net.', view_name=u'test_view')
     self.core_instance.MakeRecord(
         u'soa', u'soa1', u'ipv6zone',
@@ -187,7 +187,7 @@ class TestCoreHelpers(unittest.TestCase):
                                   view_name=u'test_view2')
 	
   def testMakeSubdomainDelegation(self):
-    self.core_instance.MakeZone(u'domain.example.lcl',u'master',
+    self.core_instance.MakeZone(u'domain.example.lcl',u'main',
                                 u'example.lcl.',
                                 view_name=u'test_view3')
     self.core_instance.MakeRecord(
@@ -197,7 +197,7 @@ class TestCoreHelpers(unittest.TestCase):
              u'serial_number':1, u'refresh_seconds':5,
              u'retry_seconds':5, u'expiry_seconds':5,
              u'minimum_seconds':5},view_name=u'test_view3')
-    self.core_instance.MakeZone(u'sub_domain.domain.example.lcl',u'master',
+    self.core_instance.MakeZone(u'sub_domain.domain.example.lcl',u'main',
                                 u'domain.example.lcl.',
                                 view_name=u'test_view3')
     self.core_instance.MakeRecord(u'ns',u'@',u'domain.example.lcl',
@@ -226,11 +226,11 @@ class TestCoreHelpers(unittest.TestCase):
     self.core_instance.MakeView(u'test_view4')
     self.core_instance.MakeView(u'test_view5')
 
-    self.core_instance.MakeZone(u'records_zone', u'master',
+    self.core_instance.MakeZone(u'records_zone', u'main',
                                 u'records.lcl.',
                                 view_name=u'test_view4')
 
-    self.core_instance.MakeZone(u'records_zone', u'master',
+    self.core_instance.MakeZone(u'records_zone', u'main',
                                 u'records.lcl.',
                                 view_name=u'test_view5')
     self.assertEqual(
@@ -301,13 +301,13 @@ class TestCoreHelpers(unittest.TestCase):
         {u'serial_number': 796, u'refresh_seconds': 10800, 'target': u'@', 
         u'name_server': u'ns.university.lcl.', u'retry_seconds': 3600, 'ttl': 3600, 
         u'minimum_seconds': 86400, 'record_type': u'soa', 'view_name': u'test_view4', 'last_user': u'sharrell', 
-        'zone_name': u'records_zone', u'admin_email': u'hostmaster.ns.university.lcl.', 
+        'zone_name': u'records_zone', u'admin_email': u'hostmain.ns.university.lcl.', 
         u'expiry_seconds': 3600000},
 
         {u'serial_number': 795, u'refresh_seconds': 10800, 'target': u'@', u'name_server': u'ns.university.lcl.', 
          u'retry_seconds': 3600, 'ttl': 3600, u'minimum_seconds': 86400, 'record_type': u'soa', 
         'view_name': u'test_view5', 'last_user': u'sharrell', 'zone_name': u'records_zone', 
-         u'admin_email': u'hostmaster.ns.university.lcl.', u'expiry_seconds': 3600000}, 
+         u'admin_email': u'hostmain.ns.university.lcl.', u'expiry_seconds': 3600000}, 
 
         {'target': u'@', u'name_server': u'ns.records.lcl.', 'ttl': 3600, 'record_type': u'ns', 
         'view_name': u'any', 'last_user': u'sharrell', 'zone_name': u'records_zone'}, 
@@ -1328,13 +1328,13 @@ class TestCoreHelpers(unittest.TestCase):
         u'192.168.0/31'), u'0/31.168.192.in-addr.arpa.')
 
   def testMakeIPv4ClasslessReverseDelegation(self):
-    self.core_instance.MakeZone(u'example.lcl', u'master',
+    self.core_instance.MakeZone(u'example.lcl', u'main',
                                 u'56.168.192.in-addr.arpa.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'example2.lcl', u'master',
+    self.core_instance.MakeZone(u'example2.lcl', u'main',
                                 u'57.168.192.in-addr.arpa.',
                                 view_name=u'test_view')
-    self.core_instance.MakeZone(u'example3.lcl', u'master',
+    self.core_instance.MakeZone(u'example3.lcl', u'main',
                                 u'58.168.192.in-addr.arpa.',
                                 view_name=u'test_view')
     self.core_instance.MakeRecord(
@@ -1454,7 +1454,7 @@ class TestCoreHelpers(unittest.TestCase):
         u'192.168.88.5/26')
     zones = self.core_instance.ListZones();
     self.assertEqual(zones[u'5/26.88.168.192.in-addr.arpa'], {
-        u'any': {'zone_type': u'master', 'zone_options': u'',
+        u'any': {'zone_type': u'main', 'zone_options': u'',
                  'zone_origin': u'5/26.88.168.192.in-addr.arpa.'}})
 
     self.assertRaises(

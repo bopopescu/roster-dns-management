@@ -73,7 +73,7 @@ EXEC='../roster-user-tools/scripts/dnsupnamedglobals'
 TEST_FILE_CONTENTS = (
    '#some comment\n'
    'zone "example.com" IN {\n'
-   '    type master; /* another comment */\n'
+   '    type main; /* another comment */\n'
    '    file "example.com.zone"; #maor commentz\n'
    '    allow-update { none; };\n'
    '}; //final comment\n'
@@ -193,7 +193,7 @@ class TestDnsMkHost(unittest.TestCase):
       handle.close()
     self.assertEqual(file_contents, (
         'zone "example.com" IN { allow-update { none; };\n'
-        'type master;\nfile "example.com.zone"; };'))
+        'type main;\nfile "example.com.zone"; };'))
     # Write uploaded file from the database by id
     output = os.popen('python %s dump -i 1 -f %s '
                       '-s %s -u %s -p %s --config-file %s' % (
@@ -209,7 +209,7 @@ class TestDnsMkHost(unittest.TestCase):
       handle.close()
     self.assertEqual(file_contents, (
         'zone "example.com" IN { allow-update { none; };\n'
-        'type master;\nfile "example.com.zone"; };'))
+        'type main;\nfile "example.com.zone"; };'))
     # Add some more configurations to test revert
     self.core_instance.MakeNamedConfGlobalOption(u'set1', u'test_options;')
     self.core_instance.MakeNamedConfGlobalOption(u'set1', u'test_options2;')
@@ -237,7 +237,7 @@ class TestDnsMkHost(unittest.TestCase):
       handle.close()
     self.assertEqual(file_contents, (
         'zone "example.com" IN { allow-update { none; };\n'
-        'type master;\nfile "example.com.zone"; };'))
+        'type main;\nfile "example.com.zone"; };'))
     # Print configuration revisions list
     output = os.popen('python %s list -d set1 -t "%s" '
                       '-s %s -u %s -p %s --config-file %s' % (
@@ -283,7 +283,7 @@ class TestDnsMkHost(unittest.TestCase):
       handle.close()
     self.assertEqual(file_contents,
         'zone "example.com" IN { allow-update { none; };\n'
-        'type master;\nfile "example.com.zone"; };')
+        'type main;\nfile "example.com.zone"; };')
 
   def testEdit(self):
     os.environ['EDITOR'] = 'python fake_editor.py example.com new_zone'
@@ -320,7 +320,7 @@ class TestDnsMkHost(unittest.TestCase):
       handle.close()
     self.assertEqual(file_contents, (
         'zone "new_zone" IN { allow-update { none; };\n'
-        'type master;\nfile "new_zone.zone"; };'))
+        'type main;\nfile "new_zone.zone"; };'))
 
   def testErrors(self):
     self.core_instance.MakeDnsServerSet(u'set1')
